@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Kline_Example' do
+  pod 'Kline', :path => '../'
+
+  target 'Kline_Tests' do
+    inherit! :search_paths
+
+    pod 'FBSnapshotTestCase' , '~> 2.1.4'
+  end
+end
