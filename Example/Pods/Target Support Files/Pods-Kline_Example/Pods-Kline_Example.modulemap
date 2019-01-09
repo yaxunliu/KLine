@@ -1,0 +1,6 @@
+framework module Pods_Kline_Example {
+  umbrella header "Pods-Kline_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

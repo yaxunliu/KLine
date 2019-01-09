@@ -1,0 +1,6 @@
+framework module Kline {
+  umbrella header "Kline-umbrella.h"
+
+  export *
+  module * { export * }
+}

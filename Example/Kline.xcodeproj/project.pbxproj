@@ -14,6 +14,10 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		80C9CB8477814577293505C8 /* Pods_Kline_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8F0B338853104B8A65E820 /* Pods_Kline_Example.framework */; };
+		9EA4AAF92100D82A00EFF0EF /* KlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4AAF82100D82A00EFF0EF /* KlineView.swift */; };
+		9EA4AAFB2100D8C000EFF0EF /* KlineThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4AAFA2100D8C000EFF0EF /* KlineThemeColor.swift */; };
+		9EA4AAFD2100D9B900EFF0EF /* KlineTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4AAFC2100D9B900EFF0EF /* KlineTimeModel.swift */; };
+		9EA4AAFF2100D9DC00EFF0EF /* minute.json in Resources */ = {isa = PBXBuildFile; fileRef = 9EA4AAFE2100D9DC00EFF0EF /* minute.json */; };
 		AFAAB385D9E41F29CEF9B97B /* Pods_Kline_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCC1607BD8749692D629140 /* Pods_Kline_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,7 +33,7 @@
 
 /* Begin PBXFileReference section */
 		1E8F0B338853104B8A65E820 /* Pods_Kline_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kline_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4AAC6755E21F6ABD0391199F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		4AAC6755E21F6ABD0391199F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* Kline_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kline_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -40,11 +44,15 @@
 		607FACE51AFB9204008FA782 /* Kline_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Kline_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		6637413DD76D385FB4787090 /* Kline.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = Kline.podspec; path = ../Kline.podspec; sourceTree = "<group>"; };
+		6637413DD76D385FB4787090 /* Kline.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Kline.podspec; path = ../Kline.podspec; sourceTree = "<group>"; };
 		8A55754E6E9AF609F5633266 /* Pods-Kline_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kline_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kline_Tests/Pods-Kline_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		99D28691B59F43C6049FA76C /* Pods-Kline_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kline_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kline_Example/Pods-Kline_Example.release.xcconfig"; sourceTree = "<group>"; };
 		9A670474995FBF219CF09055 /* Pods-Kline_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kline_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kline_Tests/Pods-Kline_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		9E149CFF388A99345E394C93 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		9E149CFF388A99345E394C93 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		9EA4AAF82100D82A00EFF0EF /* KlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlineView.swift; sourceTree = "<group>"; };
+		9EA4AAFA2100D8C000EFF0EF /* KlineThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlineThemeColor.swift; sourceTree = "<group>"; };
+		9EA4AAFC2100D9B900EFF0EF /* KlineTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlineTimeModel.swift; sourceTree = "<group>"; };
+		9EA4AAFE2100D9DC00EFF0EF /* minute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = minute.json; sourceTree = "<group>"; };
 		C7D9216685A06CF1E41AF6B1 /* Pods-Kline_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kline_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kline_Example/Pods-Kline_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		EFCC1607BD8749692D629140 /* Pods_Kline_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kline_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -104,6 +112,7 @@
 		607FACD21AFB9204008FA782 /* Example for Kline */ = {
 			isa = PBXGroup;
 			children = (
+				9EA4AAF42100D81900EFF0EF /* Classes */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -157,6 +166,41 @@
 				EFCC1607BD8749692D629140 /* Pods_Kline_Tests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9EA4AAF42100D81900EFF0EF /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9EA4AAF52100D81900EFF0EF /* Controller */,
+				9EA4AAF62100D81900EFF0EF /* Model */,
+				9EA4AAF72100D81900EFF0EF /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		9EA4AAF52100D81900EFF0EF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		9EA4AAF62100D81900EFF0EF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9EA4AAFE2100D9DC00EFF0EF /* minute.json */,
+				9EA4AAFA2100D8C000EFF0EF /* KlineThemeColor.swift */,
+				9EA4AAFC2100D9B900EFF0EF /* KlineTimeModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9EA4AAF72100D81900EFF0EF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9EA4AAF82100D82A00EFF0EF /* KlineView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,10 +257,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 667LB2M6MM;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 667LB2M6MM;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -247,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
+				9EA4AAFF2100D9DC00EFF0EF /* minute.json in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
@@ -341,8 +388,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EA4AAF92100D82A00EFF0EF /* KlineView.swift in Sources */,
+				9EA4AAFB2100D8C000EFF0EF /* KlineThemeColor.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				9EA4AAFD2100D9B900EFF0EF /* KlineTimeModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,7 +538,9 @@
 			baseConfigurationReference = C7D9216685A06CF1E41AF6B1 /* Pods-Kline_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 667LB2M6MM;
 				INFOPLIST_FILE = Kline/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -503,7 +555,9 @@
 			baseConfigurationReference = 99D28691B59F43C6049FA76C /* Pods-Kline_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 667LB2M6MM;
 				INFOPLIST_FILE = Kline/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -517,6 +571,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9A670474995FBF219CF09055 /* Pods-Kline_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 667LB2M6MM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -539,6 +594,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8A55754E6E9AF609F5633266 /* Pods-Kline_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 667LB2M6MM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
