@@ -14,11 +14,19 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		80C9CB8477814577293505C8 /* Pods_Kline_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8F0B338853104B8A65E820 /* Pods_Kline_Example.framework */; };
-		9EA4AAF92100D82A00EFF0EF /* KlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4AAF82100D82A00EFF0EF /* KlineView.swift */; };
+		9EA4AAF92100D82A00EFF0EF /* KLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4AAF82100D82A00EFF0EF /* KLineView.swift */; };
 		9EA4AAFB2100D8C000EFF0EF /* KlineThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4AAFA2100D8C000EFF0EF /* KlineThemeColor.swift */; };
 		9EA4AAFD2100D9B900EFF0EF /* KlineTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4AAFC2100D9B900EFF0EF /* KlineTimeModel.swift */; };
 		9EA4AAFF2100D9DC00EFF0EF /* minute.json in Resources */ = {isa = PBXBuildFile; fileRef = 9EA4AAFE2100D9DC00EFF0EF /* minute.json */; };
 		AFAAB385D9E41F29CEF9B97B /* Pods_Kline_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCC1607BD8749692D629140 /* Pods_Kline_Tests.framework */; };
+		CF1BC13721E596C600CE1D48 /* KLineDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC13621E596C600CE1D48 /* KLineDelegates.swift */; };
+		CF1BC13921E59B2900CE1D48 /* KlineDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC13821E59B2900CE1D48 /* KlineDataTypes.swift */; };
+		CF1BC13B21E59EE200CE1D48 /* KLineConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC13A21E59EE200CE1D48 /* KLineConfig.swift */; };
+		CF1BC13E21E5C0A400CE1D48 /* UIBezierPath-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC13D21E5C0A400CE1D48 /* UIBezierPath-Extension.swift */; };
+		CF1BC14021E5C5B300CE1D48 /* CAShapeLayer-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC13F21E5C5B300CE1D48 /* CAShapeLayer-Extension.swift */; };
+		CF1BC14221E5D00400CE1D48 /* CATextLayer-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC14121E5D00400CE1D48 /* CATextLayer-Extension.swift */; };
+		CF1BC14421E5E65A00CE1D48 /* line.json in Resources */ = {isa = PBXBuildFile; fileRef = CF1BC14321E5E65A00CE1D48 /* line.json */; };
+		CF1BC14621E5E96900CE1D48 /* KLineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC14521E5E96900CE1D48 /* KLineModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,11 +57,19 @@
 		99D28691B59F43C6049FA76C /* Pods-Kline_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kline_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kline_Example/Pods-Kline_Example.release.xcconfig"; sourceTree = "<group>"; };
 		9A670474995FBF219CF09055 /* Pods-Kline_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kline_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kline_Tests/Pods-Kline_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		9E149CFF388A99345E394C93 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		9EA4AAF82100D82A00EFF0EF /* KlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlineView.swift; sourceTree = "<group>"; };
+		9EA4AAF82100D82A00EFF0EF /* KLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineView.swift; sourceTree = "<group>"; };
 		9EA4AAFA2100D8C000EFF0EF /* KlineThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlineThemeColor.swift; sourceTree = "<group>"; };
 		9EA4AAFC2100D9B900EFF0EF /* KlineTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlineTimeModel.swift; sourceTree = "<group>"; };
 		9EA4AAFE2100D9DC00EFF0EF /* minute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = minute.json; sourceTree = "<group>"; };
 		C7D9216685A06CF1E41AF6B1 /* Pods-Kline_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kline_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kline_Example/Pods-Kline_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		CF1BC13621E596C600CE1D48 /* KLineDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineDelegates.swift; sourceTree = "<group>"; };
+		CF1BC13821E59B2900CE1D48 /* KlineDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlineDataTypes.swift; sourceTree = "<group>"; };
+		CF1BC13A21E59EE200CE1D48 /* KLineConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineConfig.swift; sourceTree = "<group>"; };
+		CF1BC13D21E5C0A400CE1D48 /* UIBezierPath-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath-Extension.swift"; sourceTree = "<group>"; };
+		CF1BC13F21E5C5B300CE1D48 /* CAShapeLayer-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAShapeLayer-Extension.swift"; sourceTree = "<group>"; };
+		CF1BC14121E5D00400CE1D48 /* CATextLayer-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CATextLayer-Extension.swift"; sourceTree = "<group>"; };
+		CF1BC14321E5E65A00CE1D48 /* line.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = line.json; sourceTree = "<group>"; };
+		CF1BC14521E5E96900CE1D48 /* KLineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineModel.swift; sourceTree = "<group>"; };
 		EFCC1607BD8749692D629140 /* Pods_Kline_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kline_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -171,6 +187,8 @@
 		9EA4AAF42100D81900EFF0EF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CF1BC13C21E5C08800CE1D48 /* Extension */,
+				CF1BC13521E5954200CE1D48 /* Configs */,
 				9EA4AAF52100D81900EFF0EF /* Controller */,
 				9EA4AAF62100D81900EFF0EF /* Model */,
 				9EA4AAF72100D81900EFF0EF /* View */,
@@ -189,8 +207,9 @@
 			isa = PBXGroup;
 			children = (
 				9EA4AAFE2100D9DC00EFF0EF /* minute.json */,
-				9EA4AAFA2100D8C000EFF0EF /* KlineThemeColor.swift */,
 				9EA4AAFC2100D9B900EFF0EF /* KlineTimeModel.swift */,
+				CF1BC14321E5E65A00CE1D48 /* line.json */,
+				CF1BC14521E5E96900CE1D48 /* KLineModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -198,9 +217,30 @@
 		9EA4AAF72100D81900EFF0EF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				9EA4AAF82100D82A00EFF0EF /* KlineView.swift */,
+				9EA4AAF82100D82A00EFF0EF /* KLineView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		CF1BC13521E5954200CE1D48 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				9EA4AAFA2100D8C000EFF0EF /* KlineThemeColor.swift */,
+				CF1BC13621E596C600CE1D48 /* KLineDelegates.swift */,
+				CF1BC13821E59B2900CE1D48 /* KlineDataTypes.swift */,
+				CF1BC13A21E59EE200CE1D48 /* KLineConfig.swift */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
+		CF1BC13C21E5C08800CE1D48 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CF1BC13D21E5C0A400CE1D48 /* UIBezierPath-Extension.swift */,
+				CF1BC13F21E5C5B300CE1D48 /* CAShapeLayer-Extension.swift */,
+				CF1BC14121E5D00400CE1D48 /* CATextLayer-Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,6 +335,7 @@
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				9EA4AAFF2100D9DC00EFF0EF /* minute.json in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				CF1BC14421E5E65A00CE1D48 /* line.json in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,11 +429,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9EA4AAF92100D82A00EFF0EF /* KlineView.swift in Sources */,
+				9EA4AAF92100D82A00EFF0EF /* KLineView.swift in Sources */,
+				CF1BC13E21E5C0A400CE1D48 /* UIBezierPath-Extension.swift in Sources */,
 				9EA4AAFB2100D8C000EFF0EF /* KlineThemeColor.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				CF1BC14021E5C5B300CE1D48 /* CAShapeLayer-Extension.swift in Sources */,
+				CF1BC13721E596C600CE1D48 /* KLineDelegates.swift in Sources */,
+				CF1BC13B21E59EE200CE1D48 /* KLineConfig.swift in Sources */,
 				9EA4AAFD2100D9B900EFF0EF /* KlineTimeModel.swift in Sources */,
+				CF1BC14221E5D00400CE1D48 /* CATextLayer-Extension.swift in Sources */,
+				CF1BC13921E59B2900CE1D48 /* KlineDataTypes.swift in Sources */,
+				CF1BC14621E5E96900CE1D48 /* KLineModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

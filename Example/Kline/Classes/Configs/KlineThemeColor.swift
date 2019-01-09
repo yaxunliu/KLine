@@ -10,7 +10,6 @@ import UIKit
 
 enum KlineThemeColor: String {
     case bgColor = "000000"
-
 }
 
 
@@ -18,7 +17,6 @@ extension KlineThemeColor {
     var color: UIColor {
         return self.getColor(hex: self.rawValue)!
     }
-    
     
     func getColor(hex: String) -> UIColor? {
         var red: CGFloat   = 0.0
