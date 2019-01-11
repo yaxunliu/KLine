@@ -11,7 +11,8 @@ import UIKit
 class ViewController: UIViewController {
     
     var dataSource: [KLineModel] = []
-    var kView = KLineView.init(KLineConfig.shareConfig, false, 0.5)
+    let kView = KLineView.init(KLineConfig.shareConfig, false, 1)
+    let indexView = IndexLineView.init(IndexLineConfig.init())
     override func viewDidLoad() {
         super.viewDidLoad()
         kView.frame = CGRect(x: 0, y: 100, width: self.view.frame.width, height: 230)
@@ -19,6 +20,15 @@ class ViewController: UIViewController {
         view.addSubview(kView)
         
         
+        indexView.frame = CGRect.init(x: 0, y: 340, width: self.view.frame.width, height: 90)
+        view.addSubview(indexView)
+
+        
+        requestData()
+    }
+    
+    
+    fileprivate func requestData() {
         let path = Bundle.main.path(forResource: "line.json", ofType: nil) ?? ""
         guard let nsData = NSData.init(contentsOfFile: path) else { return }
         let jsonData = Data.init(referencing: nsData)
@@ -41,13 +51,7 @@ class ViewController: UIViewController {
         }catch(let err) {
             print(err)
         }
-    
-        
-        
     }
-    
-    
-
 
 }
 
@@ -62,7 +66,7 @@ extension ViewController: KLineDataSource {
     }
     
     func startRenderIndex(_ view: KLineView) -> Int {
-        return 0
+        return dataSource.count - 1 - 17
     }
     
     func currentCandlesType(_ view: KLineView) -> KlineAdjustType {

@@ -41,3 +41,9 @@ class KLineConfig {
     private init() { }
     
 }
+
+
+class IndexLineConfig {
+    var lineColors: [String : UIColor] = [:]
+    
+}

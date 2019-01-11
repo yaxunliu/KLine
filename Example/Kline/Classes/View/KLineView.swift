@@ -22,6 +22,7 @@ class KLineView: UIView {
     /// 最外层的视图
     fileprivate lazy var contentView: UIView = {
         let contentView = UIView.init(frame: .zero)
+        contentView.layer.masksToBounds = true
         return contentView
     }()
     /// 滚动的视图
@@ -44,7 +45,11 @@ class KLineView: UIView {
     /// 当前蜡烛图的总数
     fileprivate var _candlesCount: Int = 0
     /// 当前屏幕的scale (根据scale来计算出当前一屏幕的宽度能绘制多少的蜡烛图)
-    fileprivate var _scale: CGFloat = 0.5
+    fileprivate var _scale: CGFloat = 0.5 {
+        didSet {
+            self.recaculateContentSize()
+        }
+    }
     /// 当前k线最大的绘制开始下标
     fileprivate var _maxDrawIndex: Int = 0
     /// 时间分割线
@@ -63,6 +68,9 @@ class KLineView: UIView {
     fileprivate var maxmumPrice: CGFloat = 0
     /// y轴平均价格
     fileprivate var averageY: CGFloat = 0
+    /// 是否正在缩放
+    fileprivate var isScaling: Bool = false
+    
     // MARK: 计算属性
     /// 蜡烛图的宽度 (动态变化, 会随着手势变化而变化)
     fileprivate var candleWidth: CGFloat {
@@ -109,20 +117,13 @@ extension KLineView {
         guard let startIndex = dataSource?.startRenderIndex(self) else { return }
         if startIndex > num - 1 { return }
         self._candlesCount = num
-        var width = CGFloat(num) * self.candleWidth + self._config.klinePaddingRight
-        if width <= self.contentScroll.bounds.width {
-            width = self.contentScroll.bounds.width + 0.5
-            self._maxDrawIndex = 0
-        } else {
-            let index = Int((width - self.contentScroll.bounds.width - self._config.klinePaddingRight) / self.candleWidth)
-            self._maxDrawIndex = index
-        }
-        self.contentScroll.contentSize = CGSize.init(width: width, height: self.contentScroll.bounds.height)
+        self.recaculateContentSize()
         /// 2.开始绘制当前屏幕的k线图
         var endIndex = startIndex + _candlesOfScreen - 1
         if endIndex >= num {
             endIndex = num - 1
         }
+        self.contentScroll.setContentOffset(CGPoint.init(x: self.contentScroll.contentSize.width - self.contentScroll.bounds.width, y: 0), animated: false)
         /// 3.绘制
         self.willDrawCandles(startIndex, endIndex)
     }
@@ -130,6 +131,18 @@ extension KLineView {
 
 // MARK: 核心绘制方法
 extension KLineView {
+    
+    /// 重新计算scroll的contentSize
+    fileprivate func recaculateContentSize() {
+        var width = self.candleWidth * CGFloat(self._candlesCount + 1)
+        if width <= self.contentScroll.bounds.width {
+            width = self.contentScroll.bounds.width + 0.5
+            self._maxDrawIndex = 0
+        } else {
+            self._maxDrawIndex = self._candlesCount + 1 - self._candlesOfScreen
+        }
+        self.contentScroll.contentSize = CGSize.init(width: width, height: self.contentScroll.bounds.height)
+    }
     
     /// 核心绘制k线的方法
     ///
@@ -277,7 +290,9 @@ extension KLineView {
 extension KLineView: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.isScaling { return }
         let offsetx = scrollView.contentOffset.x
+        let beginIndex = Int((offsetx / self.candleWidth).rounded())
         if offsetx < 0 { // 往右边偏移
             self.drawBoardView.transform = CGAffineTransform.init(translationX: -offsetx, y: 0)
             if self.candleIndex == 0 { return }
@@ -286,14 +301,12 @@ extension KLineView: UIScrollViewDelegate {
                 end = self._candlesCount - 1
             }
             self.willDrawCandles(0, end)
-            
-        } else if offsetx + scrollView.bounds.width > scrollView.contentSize.width { // 往左边偏移
+        } else if offsetx >= scrollView.contentSize.width - scrollView.bounds.width { // 往左边偏移
             self.drawBoardView.transform = CGAffineTransform.init(translationX: -(offsetx + scrollView.bounds.width - scrollView.contentSize.width), y: 0)
             if self.candleIndex == self._maxDrawIndex { return }
             self.willDrawCandles(self._maxDrawIndex, self._candlesCount - 1)
         } else {
-            let beginIndex = Int((scrollView.contentOffset.x / self.candleWidth).rounded())
-            if beginIndex == self.candleIndex || beginIndex > self._maxDrawIndex { return }
+            if beginIndex == self.candleIndex { return }
             var endIndex = beginIndex + self._candlesOfScreen
             endIndex = endIndex >= self._candlesCount ? self._candlesCount - 1 : endIndex
             self.willDrawCandles(beginIndex, endIndex)
@@ -350,50 +363,48 @@ extension KLineView {
     @objc func scaleScroll(_ event: UIPinchGestureRecognizer) {
         let p = event.location(in: self.drawBoardView)
         // 1.限制缩放的范围在 (0.5 和 3) 之间
-        self._scale += (event.scale - self.preScale > 0 ? 0.004 : -0.004)
+        self._scale += (event.scale - self.preScale > 0 ? 0.006 : -0.006)
         if self._scale < self._minScale {
             self._scale = self._minScale
-            return
         } else if self._scale >= self._maxScale {
             self._scale = self._maxScale
-            return
         }
         self.preScale = event.scale
         switch event.state {
         case .began:
+            self.isScaling = true
             /// 2.计算出将要缩放的点
             _beganScaleCenterIndex = self.candleIndex + Int(p.x / self.candleWidth)
             break
         case .changed:
+            self.isScaling = true
             /// 3.计算出缩放的开始位置和结束位置
-            self.reloadScale(self._scale, p)
+            self.reloadScale(p)
             break
         case .ended:
+            self.isScaling = false
             self.preScale = 1
+            self.reloadScale(p)
             break
         default:
+            self.isScaling = false
             break
         }
     }
     
     /// 刷新手势缩放
-    fileprivate func reloadScale(_ targetScale: CGFloat, _ position: CGPoint) {
+    fileprivate func reloadScale(_ position: CGPoint) {
         /// 计算出要绘制的蜡烛图
         var began = _beganScaleCenterIndex - self._candlesOfScreen / 2
-        if began < 0 {
-            began = 0
-        }
+        if began < 0 { began = 0 }
         var end = self._candlesOfScreen + began - 1
         if end > self._candlesCount - 1 {
             end = self._candlesCount - 1
+            began = end + 1 - self._candlesOfScreen
+            if began < 0 { began = 0 }
         }
-        var width = self.candleWidth * CGFloat(self._candlesCount) + self._config.klinePaddingRight
-        if width <= self.contentScroll.bounds.width {
-            width = self.contentScroll.bounds.width + 0.5
-        }
-        self.contentScroll.contentSize = CGSize.init(width: width, height: self.contentScroll.bounds.height)
-        self.contentScroll.setContentOffset(CGPoint.init(x: CGFloat(began) * self.candleWidth, y: 0), animated: false)
         self.willDrawCandles(began, end)
+        self.contentScroll.setContentOffset(CGPoint.init(x: CGFloat(began) * self.candleWidth, y: 0), animated: false)
     }
     
 }

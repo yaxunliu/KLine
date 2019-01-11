@@ -26,17 +26,21 @@ protocol BaseKLineModel {
     var riseAndFall: CGFloat { get set }
 }
 
+protocol BaseIndexLineModel {
+    var time: TimeInterval { get set }
+    /// 当前值
+    var value: CGFloat { get set }
+}
+
 
 protocol KLineDelegate {
     /// 长按屏幕
     func longPress(_ view: KLineView, _ index: Int, _ position: CGPoint, _ price: CGFloat?, _ isBegan: Bool, _ isEnd: Bool)
     /// 伸缩
     func scale(_ view: KLineView, _ scale: CGFloat, _ began: Int, _ end: Int, _ candleW: CGFloat)
-    
 }
 
 protocol KLineDataSource {
-
     /// 一共多少个蜡烛图
     func numberOfCandles(_ view: KLineView) -> Int
     /// 初始化绘制的开始下标
@@ -45,6 +49,16 @@ protocol KLineDataSource {
     func currentCandlesType(_ view: KLineView) -> KlineAdjustType
     /// 返回将要显示的蜡烛图模型
     func willShowCandles(_ view: KLineView, _ begin: Int, _ end: Int) -> [BaseKLineModel]
-
 }
 
+
+protocol IndexLineDataSource {
+    /// 需要绘制的指标名称
+    func namesOfIndexLines(_ view: IndexLineView) -> [String]
+    /// 初始化绘制的开始下标
+    func startRenderIndex(_ view: IndexLineView) -> Int
+    /// 将要渲染的折线的模型
+    func willRenderLines(_ view: IndexLineView, _ began: Int, _ end: Int, _ indexName: String) -> [BaseIndexLineModel]
+    /// 该指标是否渲染为折线 (或者柱状图)
+    func isRenderLine(_ indexName: String) -> Bool
+}
