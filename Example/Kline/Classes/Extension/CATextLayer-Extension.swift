@@ -16,7 +16,6 @@ extension CATextLayer {
         textLayer.frame = frame
         textLayer.contentsScale = UIScreen.main.scale
         textLayer.fontSize = fontSize
-        textLayer.string = "hello"
         textLayer.foregroundColor = fontColor.cgColor
         return textLayer
     }

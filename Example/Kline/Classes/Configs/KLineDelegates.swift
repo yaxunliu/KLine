@@ -28,13 +28,11 @@ protocol BaseKLineModel {
 
 
 protocol KLineDelegate {
-    
     /// 长按屏幕
-    func longPress(_ view: KLineView, _ index: Int)
-    /// 当前正在显示的数据
-    func didShow(_ view: KLineView, _ index: Int)
-    /// 缩放变化显示当前的缩放比例
-    func didScale(_ view: KLineView, _ scale: CGFloat)
+    func longPress(_ view: KLineView, _ index: Int, _ position: CGPoint, _ price: CGFloat?, _ isBegan: Bool, _ isEnd: Bool)
+    /// 伸缩
+    func scale(_ view: KLineView, _ scale: CGFloat, _ began: Int, _ end: Int, _ candleW: CGFloat)
+    
 }
 
 protocol KLineDataSource {

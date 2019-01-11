@@ -29,8 +29,8 @@ extension UIBezierPath {
     /// 绘制线段
     ///
     /// - Parameter points: 线段的起点和终点
-    static func drawLines(_ points: [(CGPoint, CGPoint)]) -> UIBezierPath {
-        let path = UIBezierPath.init()
+    static func drawLines(_ points: [(CGPoint, CGPoint)], _ bPath: UIBezierPath? = nil) -> UIBezierPath {
+        let path = bPath ?? UIBezierPath.init()
         points.forEach { touple in
             let begin = touple.0
             let end = touple.1
@@ -39,6 +39,8 @@ extension UIBezierPath {
         }
         return path
     }
+
+    
     
     /// 绘制蜡烛图
     ///
@@ -55,4 +57,16 @@ extension UIBezierPath {
         return path
     }
     
+    
+    static func drawLinePath(_ bPath: UIBezierPath?, _ points: [CGPoint]) -> UIBezierPath {
+        let path = bPath ?? UIBezierPath.init()
+        points.enumerated().forEach { (index, p) in
+            if index == 0 {
+                path.move(to: p)
+            } else {
+                path.addLine(to: p)
+            }
+        }
+        return path
+    }
 }

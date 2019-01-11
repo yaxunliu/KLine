@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     var dataSource: [KLineModel] = []
-    var kView = KLineView.init(KLineConfig.shareConfig, false, 1)
+    var kView = KLineView.init(KLineConfig.shareConfig, false, 0.5)
     override func viewDidLoad() {
         super.viewDidLoad()
         kView.frame = CGRect(x: 0, y: 100, width: self.view.frame.width, height: 230)

@@ -27,6 +27,7 @@
 		CF1BC14221E5D00400CE1D48 /* CATextLayer-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC14121E5D00400CE1D48 /* CATextLayer-Extension.swift */; };
 		CF1BC14421E5E65A00CE1D48 /* line.json in Resources */ = {isa = PBXBuildFile; fileRef = CF1BC14321E5E65A00CE1D48 /* line.json */; };
 		CF1BC14621E5E96900CE1D48 /* KLineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC14521E5E96900CE1D48 /* KLineModel.swift */; };
+		CFC8B01921E70CFF007292E9 /* Date-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC8B01821E70CFF007292E9 /* Date-Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		CF1BC14121E5D00400CE1D48 /* CATextLayer-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CATextLayer-Extension.swift"; sourceTree = "<group>"; };
 		CF1BC14321E5E65A00CE1D48 /* line.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = line.json; sourceTree = "<group>"; };
 		CF1BC14521E5E96900CE1D48 /* KLineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineModel.swift; sourceTree = "<group>"; };
+		CFC8B01821E70CFF007292E9 /* Date-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date-Extension.swift"; sourceTree = "<group>"; };
 		EFCC1607BD8749692D629140 /* Pods_Kline_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kline_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -239,6 +241,7 @@
 				CF1BC13D21E5C0A400CE1D48 /* UIBezierPath-Extension.swift */,
 				CF1BC13F21E5C5B300CE1D48 /* CAShapeLayer-Extension.swift */,
 				CF1BC14121E5D00400CE1D48 /* CATextLayer-Extension.swift */,
+				CFC8B01821E70CFF007292E9 /* Date-Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				CF1BC13721E596C600CE1D48 /* KLineDelegates.swift in Sources */,
 				CF1BC13B21E59EE200CE1D48 /* KLineConfig.swift in Sources */,
 				9EA4AAFD2100D9B900EFF0EF /* KlineTimeModel.swift in Sources */,
+				CFC8B01921E70CFF007292E9 /* Date-Extension.swift in Sources */,
 				CF1BC14221E5D00400CE1D48 /* CATextLayer-Extension.swift in Sources */,
 				CF1BC13921E59B2900CE1D48 /* KlineDataTypes.swift in Sources */,
 				CF1BC14621E5E96900CE1D48 /* KLineModel.swift in Sources */,

@@ -16,6 +16,8 @@ class KLineConfig {
     var seperatorColor: UIColor = UIColor.init(red: 31 / 255.0, green: 27 / 255.0, blue: 47 / 255.0, alpha: 1)
     /// 下跌的颜色
     var downColor: UIColor = UIColor.init(red: 0 / 255.0, green: 172 / 255.0, blue: 59 / 255.0, alpha: 1)
+    /// 折现颜色
+    var lineColor: UIColor = UIColor.init(red: 54 / 255.0, green: 143 / 255.0, blue: 251 / 255.0, alpha: 1)
     /// 上涨的颜色
     var upColor: UIColor = UIColor.init(red: 234 / 255.0, green: 64 / 255.0, blue: 70 / 255.0, alpha: 1)
     /// 十字线的颜色
