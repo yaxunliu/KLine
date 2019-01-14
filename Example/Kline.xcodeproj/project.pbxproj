@@ -27,6 +27,9 @@
 		CF1BC14221E5D00400CE1D48 /* CATextLayer-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC14121E5D00400CE1D48 /* CATextLayer-Extension.swift */; };
 		CF1BC14421E5E65A00CE1D48 /* line.json in Resources */ = {isa = PBXBuildFile; fileRef = CF1BC14321E5E65A00CE1D48 /* line.json */; };
 		CF1BC14621E5E96900CE1D48 /* KLineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC14521E5E96900CE1D48 /* KLineModel.swift */; };
+		CF350ABE21EC39F400A059E3 /* CGFloat-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF350ABD21EC39F400A059E3 /* CGFloat-Extension.swift */; };
+		CF56B3A721EC7A7400443290 /* StockProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56B3A621EC7A7400443290 /* StockProviderView.swift */; };
+		CF56B3A921EC7E8B00443290 /* StockLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56B3A821EC7E8B00443290 /* StockLineView.swift */; };
 		CF841BFA21E87C32004B0DEE /* IndexLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF841BF921E87C32004B0DEE /* IndexLineView.swift */; };
 		CFC8B01921E70CFF007292E9 /* Date-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC8B01821E70CFF007292E9 /* Date-Extension.swift */; };
 /* End PBXBuildFile section */
@@ -72,6 +75,9 @@
 		CF1BC14121E5D00400CE1D48 /* CATextLayer-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CATextLayer-Extension.swift"; sourceTree = "<group>"; };
 		CF1BC14321E5E65A00CE1D48 /* line.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = line.json; sourceTree = "<group>"; };
 		CF1BC14521E5E96900CE1D48 /* KLineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineModel.swift; sourceTree = "<group>"; };
+		CF350ABD21EC39F400A059E3 /* CGFloat-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CGFloat-Extension.swift"; path = "Kline/Classes/CGFloat-Extension.swift"; sourceTree = SOURCE_ROOT; };
+		CF56B3A621EC7A7400443290 /* StockProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockProviderView.swift; sourceTree = "<group>"; };
+		CF56B3A821EC7E8B00443290 /* StockLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockLineView.swift; sourceTree = "<group>"; };
 		CF841BF921E87C32004B0DEE /* IndexLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexLineView.swift; sourceTree = "<group>"; };
 		CFC8B01821E70CFF007292E9 /* Date-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date-Extension.swift"; sourceTree = "<group>"; };
 		EFCC1607BD8749692D629140 /* Pods_Kline_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kline_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +229,8 @@
 			children = (
 				9EA4AAF82100D82A00EFF0EF /* KLineView.swift */,
 				CF841BF921E87C32004B0DEE /* IndexLineView.swift */,
+				CF56B3A621EC7A7400443290 /* StockProviderView.swift */,
+				CF56B3A821EC7E8B00443290 /* StockLineView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -245,6 +253,7 @@
 				CF1BC13F21E5C5B300CE1D48 /* CAShapeLayer-Extension.swift */,
 				CF1BC14121E5D00400CE1D48 /* CATextLayer-Extension.swift */,
 				CFC8B01821E70CFF007292E9 /* Date-Extension.swift */,
+				CF350ABD21EC39F400A059E3 /* CGFloat-Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -435,12 +444,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF56B3A721EC7A7400443290 /* StockProviderView.swift in Sources */,
 				9EA4AAF92100D82A00EFF0EF /* KLineView.swift in Sources */,
 				CF1BC13E21E5C0A400CE1D48 /* UIBezierPath-Extension.swift in Sources */,
 				9EA4AAFB2100D8C000EFF0EF /* KlineThemeColor.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				CF1BC14021E5C5B300CE1D48 /* CAShapeLayer-Extension.swift in Sources */,
+				CF350ABE21EC39F400A059E3 /* CGFloat-Extension.swift in Sources */,
+				CF56B3A921EC7E8B00443290 /* StockLineView.swift in Sources */,
 				CF1BC13721E596C600CE1D48 /* KLineDelegates.swift in Sources */,
 				CF1BC13B21E59EE200CE1D48 /* KLineConfig.swift in Sources */,
 				9EA4AAFD2100D9B900EFF0EF /* KlineTimeModel.swift in Sources */,

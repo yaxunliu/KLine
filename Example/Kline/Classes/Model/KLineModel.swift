@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct KLineModel: BaseKLineModel {
+struct KLineModel: BaseKLineModel, BaseIndexLineModel {
     var time: TimeInterval
     /// 开盘价
     var openingPrice: CGFloat
@@ -24,4 +24,7 @@ struct KLineModel: BaseKLineModel {
     var quoteChange: CGFloat
     /// 涨跌额
     var riseAndFall: CGFloat
+    /// 指标
+    var indexDict: [String : CGFloat]
+    
 }

@@ -17,8 +17,6 @@ class KLineView: UIView {
     var delegate: KLineDelegate?
     /// 当前展示的蜡烛图开始索引(只读属)
     private(set) var candleIndex: Int = 0
-    
-    
     /// 最外层的视图
     fileprivate lazy var contentView: UIView = {
         let contentView = UIView.init(frame: .zero)
@@ -29,6 +27,8 @@ class KLineView: UIView {
     fileprivate lazy var contentScroll: UIScrollView = {
         let scroll = UIScrollView.init()
         scroll.delegate = self
+        scroll.showsVerticalScrollIndicator = false
+        scroll.showsHorizontalScrollIndicator = false
         return scroll
     }()
     /// 绘制视图
@@ -73,13 +73,13 @@ class KLineView: UIView {
     
     // MARK: 计算属性
     /// 蜡烛图的宽度 (动态变化, 会随着手势变化而变化)
-    fileprivate var candleWidth: CGFloat {
+    var candleWidth: CGFloat {
         get {
             return self.contentView.bounds.width / CGFloat(self._candlesOfScreen)
         }
     }
     /// 当前屏幕绘制的蜡烛数量 (动态变化 随着缩放值变化而变化)
-    fileprivate var _candlesOfScreen: Int {
+    var _candlesOfScreen: Int {
         get {
             return self.candlesOfScale(self._scale)
         }
@@ -114,8 +114,11 @@ extension KLineView {
     public func reloadData() {
         /// 1.计算scroll的ContentSize
         guard let num = dataSource?.numberOfCandles(self) else { return }
-        guard let startIndex = dataSource?.startRenderIndex(self) else { return }
+        guard var startIndex = dataSource?.startRenderIndex(self) else { return }
         if startIndex > num - 1 { return }
+        if startIndex > num - self._candlesOfScreen {
+            startIndex = num - self._candlesOfScreen
+        }
         self._candlesCount = num
         self.recaculateContentSize()
         /// 2.开始绘制当前屏幕的k线图
@@ -127,6 +130,15 @@ extension KLineView {
         /// 3.绘制
         self.willDrawCandles(startIndex, endIndex)
     }
+    
+    public func addIndexView(_ view: UIView) {
+        
+        /// 1.重新计算位置
+        
+        
+        
+    }
+    
 }
 
 // MARK: 核心绘制方法
@@ -156,6 +168,7 @@ extension KLineView {
         _timeTextLayers.forEach{ $0.removeFromSuperlayer() }
         /// 1.取出数据模型
         guard let models = dataSource?.willShowCandles(self, begin, end) else { return }
+        delegate?.showCandles(self, models)
         self.candleIndex = begin
         /// 2.计算出m最大值
         var highestPrice = models.map{ $0.highestPrice }.max() ?? 0
@@ -212,20 +225,20 @@ extension KLineView {
         }
         /// 5.开始渲染k线
         if upPath != nil {
-            let upLayer = CAShapeLayer.drawLayer(self.drawBoardView.bounds, upPath!, self._config.upColor, .clear, true, 1)
+            let upLayer = CAShapeLayer.drawLayer(self.drawBoardView.bounds, upPath!, self._config.upColor, true, 1)
             self.drawBoardView.layer.addSublayer(upLayer)
         }
         if downPath != nil {
-            let downLayer = CAShapeLayer.drawLayer(self.drawBoardView.bounds, downPath!, self._config.downColor, self._config.downColor, false, 1)
+            let downLayer = CAShapeLayer.drawLayer(self.drawBoardView.bounds, downPath!, self._config.downColor, false, 1, self._config.downColor)
             self.drawBoardView.layer.addSublayer(downLayer)
         }
         if linePath != nil {
-            let lineLayer = CAShapeLayer.drawLayer(self.drawBoardView.bounds, linePath!, self._config.lineColor, .clear, true, 1)
+            let lineLayer = CAShapeLayer.drawLayer(self.drawBoardView.bounds, linePath!, self._config.lineColor, true, 1)
             self.drawBoardView.layer.addSublayer(lineLayer)
         }
         /// 6.绘制竖线分割线
         let verticalLinePath = UIBezierPath.drawLines(seperatorsPoints)
-        let verticalLineLayer = CAShapeLayer.drawLayer(self.contentView.bounds, verticalLinePath, self._config.seperatorColor, self._config.seperatorColor, false, 1)
+        let verticalLineLayer = CAShapeLayer.drawLayer(self.contentView.bounds, verticalLinePath, self._config.seperatorColor, false, 1, self._config.seperatorColor)
         _timeVerticalLine = verticalLineLayer
         self.contentView.layer.insertSublayer(verticalLineLayer, at: 0)
         /// 7.绘制文字
@@ -362,13 +375,8 @@ extension KLineView {
     /// 手势缩放
     @objc func scaleScroll(_ event: UIPinchGestureRecognizer) {
         let p = event.location(in: self.drawBoardView)
-        // 1.限制缩放的范围在 (0.5 和 3) 之间
-        self._scale += (event.scale - self.preScale > 0 ? 0.006 : -0.006)
-        if self._scale < self._minScale {
-            self._scale = self._minScale
-        } else if self._scale >= self._maxScale {
-            self._scale = self._maxScale
-        }
+        let canScale = self.caculateScale(event)
+        if !canScale { return }
         self.preScale = event.scale
         switch event.state {
         case .began:
@@ -384,12 +392,31 @@ extension KLineView {
         case .ended:
             self.isScaling = false
             self.preScale = 1
-            self.reloadScale(p)
             break
         default:
             self.isScaling = false
             break
         }
+    }
+    
+    fileprivate func caculateScale(_ event: UIPinchGestureRecognizer) -> Bool {
+        let targetScale = self._scale + (event.scale - self.preScale > 0 ? 0.006 : -0.006)
+        if targetScale < self._minScale {
+            if self._scale == self._minScale {
+                self.isScaling = false
+                return false
+            }
+            self._scale = self._minScale
+        } else if targetScale > self._maxScale {
+            if self._scale == self._maxScale {
+                self.isScaling = false
+                return false
+            }
+            self._scale = self._maxScale
+        } else {
+            self._scale = targetScale
+        }
+        return true
     }
     
     /// 刷新手势缩放
@@ -419,7 +446,7 @@ extension KLineView {
         contentView.frame = CGRect.init(x: self.contentInset.left, y: self.contentInset.top, width: self.bounds.width - self.contentInset.left - self.contentInset.right, height: self.bounds.height - self.contentInset.top - self.contentInset.bottom)
         addSubview(contentView)
         let borderPath = UIBezierPath.drawRect(nil, contentView.bounds)
-        let borderLayer = CAShapeLayer.drawLayer(contentView.bounds, borderPath, _config.seperatorColor, .clear, false, 0.5)
+        let borderLayer = CAShapeLayer.drawLayer(contentView.bounds, borderPath, _config.seperatorColor, false, 0.5)
         self.contentView.layer.addSublayer(borderLayer)
         let seperatorNum = _isHorizon ? _config.horizonSeperatorNum : _config.verticalSeperatorNum
         let paddingTop = (contentView.bounds.height - _config.tagFontSize) / CGFloat(seperatorNum)
@@ -434,7 +461,7 @@ extension KLineView {
             markStrings.append(CATextLayer.initWithFrame(CGRect.init(x: 0, y: startY - _config.tagFontSize, width: 40, height: _config.tagFontSize) , _config.tagFontSize, self._config.tagFontColor))
         }
         let linePath = UIBezierPath.drawLines(points)
-        let lineLayer = CAShapeLayer.drawLayer(contentView.bounds, linePath, _config.seperatorColor, .clear, false, 1)
+        let lineLayer = CAShapeLayer.drawLayer(contentView.bounds, linePath, _config.seperatorColor, false, 1)
         self.contentView.layer.addSublayer(lineLayer)
         drawBoardView.frame = contentView.bounds
         contentScroll.frame = contentView.bounds

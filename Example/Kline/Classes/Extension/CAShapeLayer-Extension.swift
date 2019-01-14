@@ -9,7 +9,7 @@
 import UIKit
 
 extension CAShapeLayer {
-    static func drawLayer(_ rect: CGRect, _ path: UIBezierPath, _ stroke: UIColor, _ fill: UIColor, _ isAlpha: Bool, _ lineWidth: CGFloat) -> CAShapeLayer {
+    static func drawLayer(_ rect: CGRect, _ path: UIBezierPath, _ stroke: UIColor, _ isAlpha: Bool, _ lineWidth: CGFloat,  _ fill: UIColor = .clear, _ isDashLine: Bool = false) -> CAShapeLayer {
         let shaperLayer = CAShapeLayer.init()
         shaperLayer.frame = rect
         shaperLayer.strokeColor = stroke.cgColor
@@ -17,6 +17,9 @@ extension CAShapeLayer {
         shaperLayer.isOpaque = isAlpha
         shaperLayer.lineWidth = lineWidth
         shaperLayer.path = path.cgPath
+        if isDashLine {
+            shaperLayer.lineDashPattern = [NSNumber.init(value: 6), NSNumber.init(value: 4)]
+        }
         return shaperLayer
     }
 }

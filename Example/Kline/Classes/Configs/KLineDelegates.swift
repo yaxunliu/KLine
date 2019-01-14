@@ -28,8 +28,7 @@ protocol BaseKLineModel {
 
 protocol BaseIndexLineModel {
     var time: TimeInterval { get set }
-    /// 当前值
-    var value: CGFloat { get set }
+    var indexDict: [String : CGFloat] { get set }
 }
 
 
@@ -38,6 +37,10 @@ protocol KLineDelegate {
     func longPress(_ view: KLineView, _ index: Int, _ position: CGPoint, _ price: CGFloat?, _ isBegan: Bool, _ isEnd: Bool)
     /// 伸缩
     func scale(_ view: KLineView, _ scale: CGFloat, _ began: Int, _ end: Int, _ candleW: CGFloat)
+    /// 开始展示
+    func showCandles(_ view: KLineView, _ models: [BaseKLineModel])
+    /// 偏移
+    func transform(_ view: KLineView, _ tx: CGFloat)
 }
 
 protocol KLineDataSource {
@@ -49,6 +52,7 @@ protocol KLineDataSource {
     func currentCandlesType(_ view: KLineView) -> KlineAdjustType
     /// 返回将要显示的蜡烛图模型
     func willShowCandles(_ view: KLineView, _ begin: Int, _ end: Int) -> [BaseKLineModel]
+
 }
 
 
@@ -58,7 +62,28 @@ protocol IndexLineDataSource {
     /// 初始化绘制的开始下标
     func startRenderIndex(_ view: IndexLineView) -> Int
     /// 将要渲染的折线的模型
-    func willRenderLines(_ view: IndexLineView, _ began: Int, _ end: Int, _ indexName: String) -> [BaseIndexLineModel]
+    func willRenderLines(_ view: IndexLineView) -> [BaseIndexLineModel]
     /// 该指标是否渲染为折线 (或者柱状图)
-    func isRenderLine(_ indexName: String) -> Bool
+    func isRenderLine(_ view: IndexLineView, _ indexName: String) -> Bool
+    /// y轴坐标的值是固定还是自由分配
+    func indexRefrenceSystemType(_ view: IndexLineView) -> IndexRefrenceSystem
 }
+
+
+protocol StockProviderViewDataSource {
+    func numberOfCandles(_ view: StockProviderView) -> Int
+    /// 返回将要显示的蜡烛图模型
+    func willShowCandles(_ view: StockProviderView, _ begin: Int, _ end: Int) -> [BaseKLineModel]
+}
+
+
+
+
+protocol KLineWrapperDelegate {
+    /// 手势缩放 刷新
+    func reloadData(_ nums: Int, _ candleWidth: CGFloat, _ datas: [BaseKLineModel], _ isMin: Bool, _ scale: CGFloat)
+    /// 长按手势的时候对应的y值
+    func longPress(_ p: CGPoint) -> CGFloat
+
+}
+
