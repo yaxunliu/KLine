@@ -23,6 +23,13 @@ class ViewController: UIViewController {
         requestData()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let comp =
+            StockMacdComponent.init(CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: 90), ["k","d","j"])
+        providerView.insertComponent(comp)
+
+    }
+    
     fileprivate func requestData() {
         let path = Bundle.main.path(forResource: "line.json", ofType: nil) ?? ""
         guard let nsData = NSData.init(contentsOfFile: path) else { return }
@@ -39,10 +46,11 @@ class ViewController: UIViewController {
                 let closePrice = CGFloat((arr[4] as? NSString ?? "0").doubleValue)
                 let dealNum =  CGFloat((arr[5] as? NSString ?? "0").doubleValue)
                 let exchangeRate = CGFloat((arr[6] as? NSString ?? "0").doubleValue)
-                let model = KLineModel.init(time: time, openingPrice: openPrice, closingPrice: closePrice, highestPrice: maxPrice, lowestPrice: minPrice, volume: dealNum, quoteChange: exchangeRate, riseAndFall: exchangeRate, indexDict: [:])
+                let model = KLineModel.init(time: time, openingPrice: openPrice, closingPrice: closePrice, highestPrice: maxPrice, lowestPrice: minPrice, volume: dealNum, quoteChange: exchangeRate, riseAndFall: exchangeRate, indexDict: [:], indexColor: [:])
                 dataSource.append(model)
             }
             self.caculateKDJIndicator()
+            self.caculateMACD()
             providerView.reloadData()
         }catch(let err) {
             print(err)
@@ -82,14 +90,37 @@ class ViewController: UIViewController {
             self.dataSource[index].indexDict["k"] = lastK
             self.dataSource[index].indexDict["d"] = lastD
             self.dataSource[index].indexDict["j"] = j
+            self.dataSource[index].indexColor["k"] = UIColor.init(red: 190 / 255.0, green: 120 / 255.0, blue: 46 / 255.0, alpha: 1)
+            self.dataSource[index].indexColor["d"] = UIColor.init(red: 47 / 255.0, green: 165 / 255.0, blue: 206 / 255.0, alpha: 1)
+            self.dataSource[index].indexColor["j"] = UIColor.init(red: 208 / 255.0, green: 126 / 255.0, blue: 187 / 255.0, alpha: 1)
         }
     }
+    
+    fileprivate func caculateMACD() {
+        var lastEMA12: CGFloat = 0
+        var lastEMA26: CGFloat = 0
+        var lastDEA: CGFloat = 0
+        for (index, item) in self.dataSource.enumerated() {
+            let ema12 = lastEMA12 * 11 / 13 + item.closingPrice * 2 / 13
+            let ema26 = lastEMA26 * 25 / 27 + item.closingPrice * 2 / 27
+            let dif = ema12 - ema26
+            let dea = lastDEA * 8 / 10 + dif * 2 / 10
+            let macd = (dif - dea) * 2
+            self.dataSource[index].indexDict["DEA"]  = dea.roundTo(places: 2)
+            self.dataSource[index].indexDict["MACD"] = macd.roundTo(places: 2)
+            self.dataSource[index].indexDict["DIF"] = dif.roundTo(places: 2)
+            lastDEA = dea
+            lastEMA12 = ema12
+            lastEMA26 = ema26
+        }
+    }
+    
 
 }
 
 extension ViewController: StockProviderViewDataSource {
     func willShowCandles(_ view: StockProviderView, _ begin: Int, _ end: Int) -> [BaseKLineModel] {
-        return Array(self.dataSource[begin..<end+1])
+        return Array(self.dataSource[begin...end])
     }
 
     func numberOfCandles(_ view: StockProviderView) -> Int {

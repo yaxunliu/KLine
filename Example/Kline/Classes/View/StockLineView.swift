@@ -23,8 +23,7 @@ class StockLineView: UIView {
             return self.drawBoardView.bounds.width
         }
     }
-    
-    
+        
     fileprivate lazy var contentView: UIView = {
         let contentView = UIView.init(frame: .zero)
         contentView.layer.masksToBounds = true
@@ -43,6 +42,7 @@ class StockLineView: UIView {
         self._config = config
         self._isHorizon = isHorizon
         super.init(frame: .zero)
+        self.backgroundColor = self._config.bgColor
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -90,16 +90,13 @@ class StockLineView: UIView {
 }
 
 
-extension StockLineView: KLineWrapperDelegate {
+extension StockLineView: StockComponentDelegate {
     
     func transform(_ tx: CGFloat) {
         self.drawBoardView.transform = CGAffineTransform.init(translationX: tx, y: 0)
     }
     
     func reloadData(_ nums: Int, _ candleWidth: CGFloat, _ models: [BaseKLineModel], _ isMin: Bool, _ scale: CGFloat) {
-        
-        print("models.count \(models.count)")
-        
         /// 1.移除之前绘制的
         self.drawBoardView.layer.sublayers?.forEach{ $0.removeFromSuperlayer() }
         _timeVerticalLine?.removeFromSuperlayer()
@@ -182,13 +179,13 @@ extension StockLineView: KLineWrapperDelegate {
         /// 8    .绘制文字
         timeStrs.enumerated().forEach { (index, str) in
             let x = seperatorsPoints[index].1.x
-            let y = seperatorsPoints[index].1.y
+            let y = self.contentView.frame.maxY
             let h = self._config.tagFontSize
             let frame = CGRect.init(x: x, y: y, width: 100.0, height: h)
             let textLayer = CATextLayer.initWithFrame(frame, h, self._config.tagFontColor)
             textLayer.string = timeStrs[index]
             _timeTextLayers.append(textLayer)
-            self.contentView.layer.addSublayer(textLayer)
+            self.layer.addSublayer(textLayer)
         }
 
         
