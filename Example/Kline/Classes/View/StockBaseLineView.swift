@@ -1,54 +1,56 @@
 //
-//  StockLineView.swift
+//  StockBaseLineView.swift
 //  Kline_Example
 //
-//  Created by yaxun on 2019/1/14.
+//  Created by yaxun on 2019/1/16.
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
 import UIKit
 
-class StockLineView: UIView {
+class StockBaseLineView: UIView {
     /// 时间分割线
-    fileprivate var _timeVerticalLine: CAShapeLayer? = nil
+    var _timeVerticalLine: CAShapeLayer? = nil
     /// 时间分割文字
-    fileprivate var _timeTextLayers: [CATextLayer] = []
+    var _timeTextLayers: [CATextLayer] = []
     /// 内边距 (需要去适配屏幕大小)
     var contentInset: UIEdgeInsets = UIEdgeInsets.init(top: 30, left: 10, bottom: 10, right: 10)
     /// 绘制视图
-    fileprivate lazy var drawBoardView: UIView = {  return UIView.init() }()
+    lazy var drawBoardView: UIView = {  return UIView.init() }()
     /// 绘制区域的宽度
-    var drawboardWidth: CGFloat {
-        get {
-            return self.drawBoardView.bounds.width
-        }
-    }
-        
-    fileprivate lazy var contentView: UIView = {
+    var drawboardWidth: CGFloat { get { return self.drawBoardView.bounds.width } }
+    /// 内容区
+    lazy var contentView: UIView = {
         let contentView = UIView.init(frame: .zero)
         contentView.layer.masksToBounds = true
         return contentView
     }()
     /// 标记的文字layer
-    fileprivate var markStrings: [CATextLayer] = []
-    /// 在长按手势中用来计算y轴值
-    fileprivate var averageY: CGFloat = 0
-
+    var markStrings: [CATextLayer] = []
     /// 颜色 字体之类的配置信息
-    fileprivate let _config: KLineConfig
-    fileprivate let _isHorizon: Bool
+    let _config: KLineConfig
+    /// 是否垂直
+    let _isHorizon: Bool
+    /// 分时图时间段
+    let times: [String] = ["10:00", "10:30", "11:00", "11:30", "13:30", "14:00", "14:30"]
+    /// 分时图右边的坐标系
+    var rateLayers: [CATextLayer] = []
+    /// 标记线
+    var markLines: [CAShapeLayer] = []
+    /// 最大的边界x值
+    var maxBorderX: CGFloat = 0
     
+    /// 分时图的宽度
+    var candleW: CGFloat { get { return self.drawBoardView.bounds.width / 360 } }
     init(_ config: KLineConfig, _ isHorizon: Bool) {
         self._config = config
         self._isHorizon = isHorizon
         super.init(frame: .zero)
         self.backgroundColor = self._config.bgColor
     }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         if contentView.superview != nil { return }
@@ -58,12 +60,12 @@ class StockLineView: UIView {
         }
         setupUI()
     }
-
-    fileprivate func setupUI() {
+    
+    func setupUI() {
         contentView.frame = CGRect.init(x: self.contentInset.left, y: self.contentInset.top, width: self.bounds.width - self.contentInset.left - self.contentInset.right, height: self.bounds.height - self.contentInset.top - self.contentInset.bottom)
         addSubview(contentView)
         let borderPath = UIBezierPath.drawRect(nil, contentView.bounds)
-        let borderLayer = CAShapeLayer.drawLayer(contentView.bounds, borderPath, _config.seperatorColor, false, 0.5)
+        let borderLayer = CAShapeLayer.drawLayer(contentView.bounds, borderPath, _config.seperatorColor, false, 1)
         self.contentView.layer.addSublayer(borderLayer)
         let seperatorNum = _isHorizon ? _config.horizonSeperatorNum : _config.verticalSeperatorNum
         let paddingTop = (contentView.bounds.height - _config.tagFontSize) / CGFloat(seperatorNum)
@@ -87,20 +89,66 @@ class StockLineView: UIView {
         }
     }
     
-}
+    /// 移动画板
+    func transform(_ tx: CGFloat) { self.drawBoardView.transform = CGAffineTransform.init(translationX: tx, y: 0) }
 
+    /// 分时图需要添加的 一些f线
+    fileprivate func setMinuteUI() {
+        /* 分时图相关的 */
+        let stepWidth = self.drawBoardView.bounds.width / CGFloat(times.count + 1)
+        var points: [(CGPoint, CGPoint)] = []
+        for i in 0..<times.count {
+            let x = CGFloat(i + 1) * stepWidth
+            points.append((CGPoint.init(x: x, y: 0), CGPoint.init(x: x, y: self.contentView.bounds.height)))
+            if self._timeTextLayers.count == times.count { continue }
+            let text = CATextLayer.initWithFrame(CGRect.init(x: x + self.contentView.frame.minX, y: self.contentView.frame.maxY + 1, width: 100, height: self._config.tagFontSize) , self._config.tagFontSize, self._config.tagFontColor, times[i])
+            self.layer.addSublayer(text)
+            self._timeTextLayers.append(text)
+        }
+        
+        if _timeVerticalLine == nil {
+            let timePath = UIBezierPath.drawLines(points, nil)
+            _timeVerticalLine = CAShapeLayer.drawLayer(self.drawBoardView.frame, timePath, self._config.seperatorColor, false, 1)
+            self.contentView.layer.insertSublayer(_timeVerticalLine!, at: 0)
+        }
 
-extension StockLineView: StockComponentDelegate {
-    
-    func transform(_ tx: CGFloat) {
-        self.drawBoardView.transform = CGAffineTransform.init(translationX: tx, y: 0)
+        /// 增加右侧的坐标轴
+        if self.rateLayers.count == 0 {
+            self.markStrings.forEach { text in
+                let rateLayer = CATextLayer.initWithFrame(CGRect.init(x: self.contentView.bounds.width - 40, y: text.frame.minY, width: 40, height: self._config.tagFontSize) , self._config.tagFontSize, self._config.tagFontColor)
+                rateLayer.alignmentMode = "right"
+                self.rateLayers.append(rateLayer)
+                self.contentView.layer.addSublayer(rateLayer)
+            }
+        }
     }
     
-    func reloadData(_ nums: Int, _ candleWidth: CGFloat, _ models: [BaseKLineModel], _ isMin: Bool, _ scale: CGFloat) {
-        /// 1.移除之前绘制的
+    fileprivate func clearDrawBoardContext() {
         self.drawBoardView.layer.sublayers?.forEach{ $0.removeFromSuperlayer() }
         _timeVerticalLine?.removeFromSuperlayer()
+        _timeVerticalLine = nil
         _timeTextLayers.forEach{ $0.removeFromSuperlayer() }
+        _timeTextLayers.removeAll()
+        self.rateLayers.forEach{ $0.removeFromSuperlayer() }
+        self.rateLayers.removeAll()
+        self.markLines.forEach{$0.removeFromSuperlayer()}
+        self.markLines.removeAll()
+    }
+
+    /// 当y值在这里的时候 对应的价格是多少
+    func valueOfY(_ y: CGFloat) -> CGFloat? {
+        
+    }
+}
+
+// MARK: 计算k线相关的内容
+extension StockBaseLineView {
+    
+    /// 刷新k线数据
+    func reloadData(_ nums: Int, _ candleWidth: CGFloat, _ models: [BaseKLineModel], _ isMin: Bool, _ scale: CGFloat) {
+        /// 1.移除之前绘制的
+        self.clearDrawBoardContext()
+        self.maxBorderX = (CGFloat(models.count) - 0.5) * candleWidth
         
         /// 2.计算最大值和最小值
         var highestPrice = models.map{ $0.highestPrice }.max() ?? 0
@@ -120,8 +168,6 @@ extension StockLineView: StockComponentDelegate {
         /// 4.开始绘制k线
         let offsetY = self._config.tagFontSize
         let averageHeight = (self.contentView.bounds.height - offsetY) / (highestPrice - lowestPrice)
-//        self.maxmumPrice = offsetY * (highestPrice - lowestPrice) / (self.contentView.bounds.height - offsetY)  + highestPrice
-        self.averageY = (highestPrice - lowestPrice) / (self.contentView.bounds.height - offsetY)
         var upPath: UIBezierPath? = nil
         var downPath: UIBezierPath? = nil
         var linePath: UIBezierPath? = nil
@@ -176,7 +222,7 @@ extension StockLineView: StockComponentDelegate {
         let verticalLineLayer = CAShapeLayer.drawLayer(self.contentView.bounds, verticalLinePath, self._config.seperatorColor, false, 1, self._config.seperatorColor)
         _timeVerticalLine = verticalLineLayer
         self.contentView.layer.insertSublayer(verticalLineLayer, at: 0)
-        /// 8    .绘制文字
+        /// 8.绘制文字
         timeStrs.enumerated().forEach { (index, str) in
             let x = seperatorsPoints[index].1.x
             let y = self.contentView.frame.maxY
@@ -187,18 +233,8 @@ extension StockLineView: StockComponentDelegate {
             _timeTextLayers.append(textLayer)
             self.layer.addSublayer(textLayer)
         }
-
-        
     }
     
-    func longPress(_ p: CGPoint) -> CGFloat {
-        return 1
-    }
-    
-}
-
-
-extension StockLineView {
     /// 计算蜡烛图的k线位置
     fileprivate func caculateCandleRect(_ scale: CGFloat, _ candleWidth: CGFloat, _ model: BaseKLineModel, _ path: UIBezierPath?, _ index: Int, _ offsetY: CGFloat, _ averageHeight: CGFloat, _ highestPrice: CGFloat, _ isUp: Bool, _ isLine: Bool)
         -> UIBezierPath {
@@ -234,5 +270,71 @@ extension StockLineView {
                 return UIBezierPath.drawCandle(path, candleRect, highestY, lowestY)
             }
             return UIBezierPath.drawCandle(path, candleRect, highestY, lowestY)
+    }
+}
+
+// MARK: 分时图相关
+extension StockBaseLineView {
+    /// 刷新分时数据
+    func reloadMinute(_ openPrice: CGFloat, _ models: [KLineMinuteModel]) {
+        /// 0.clear
+        self.clearDrawBoardContext()
+        self.setMinuteUI()
+        self.maxBorderX = (CGFloat(models.count) - 0.5) * self.candleW
+
+        /// 1.计算出最低价和最高价
+        var min = models.map{ $0.minutePrice }.min() ?? 0
+        var max = models.map{ $0.minutePrice }.max() ?? 0
+        let minus = (max - min) * 0.1
+        max += minus
+        min -= minus
+        
+        /// 2.计算出文字的
+        let averagePrice = (max - min) / CGFloat(self.markStrings.count)
+        var currentPrice = max
+        zip(self.markStrings, self.rateLayers).forEach { (str, rate) in
+            str.string = String.init(format: "%.2f", currentPrice)
+            let fontColor = currentPrice > openPrice ? self._config.upColor.cgColor : self._config.downColor.cgColor
+            str.foregroundColor = fontColor
+            rate.foregroundColor = fontColor
+            rate.string = String.init(format: "%.2f%%", (currentPrice - openPrice) / openPrice)
+            currentPrice -= averagePrice
+        }
+        let averageH = self.drawBoardView.bounds.height / (max - min)
+        
+        /// 3.开始绘制折线图
+        var points: [CGPoint] = []
+        models.enumerated().forEach { (index, model) in
+            let x = (CGFloat(index) + 0.5) * candleW
+            let y = (max - model.minutePrice) * averageH
+            let p = CGPoint.init(x: x, y: y)
+            points.append(p)
+        }
+        
+        let linePath = UIBezierPath.drawLinePath(nil, points)
+        let lineLayer = CAShapeLayer.drawLayer(self.drawBoardView.bounds, linePath, self._config.lineColor, false, 1)
+        self.drawBoardView.layer.addSublayer(lineLayer)
+        points.insert(CGPoint.init(x: 0, y: self.drawBoardView.bounds.height) , at: 0)
+        points.append(CGPoint.init(x: (CGFloat(models.count - 1) + 0.5) * candleW, y: self.drawBoardView.bounds.height))
+        let bgPath = UIBezierPath.drawLinePath(nil, points)
+        bgPath.close()
+        let bgLayer = CAShapeLayer.drawLayer(self.drawBoardView.bounds, bgPath, UIColor.clear, true, 1, self._config.minuteBgColor, false)
+        self.drawBoardView.layer.addSublayer(bgLayer)
+        
+        /// 4.绘制开盘价的成本线
+        let y = (max - openPrice) * averageH
+        let openLinePath = UIBezierPath.drawLinePath(nil, [CGPoint.init(x: 0, y: y), CGPoint.init(x: self.drawBoardView.bounds.width, y: y)])
+        let openLayer = CAShapeLayer.drawLayer(self.drawBoardView.frame, openLinePath, self._config.tagFontColor, false, 1, .clear, true)
+        self.contentView.layer.addSublayer(openLayer)
+        markLines.append(openLayer)
+        
+        /// 5.绘制最后一根线的价格
+        let lastY = (max - (models.last?.minutePrice ?? 0)) * averageH
+        let lastLinePath = UIBezierPath.drawLinePath(nil, [CGPoint.init(x: 0, y: lastY), CGPoint.init(x: self.drawBoardView.bounds.width, y: lastY)])
+        let lastLayer = CAShapeLayer.drawLayer(self.drawBoardView.frame, lastLinePath, self._config.markLineColor, false, 1, .clear, true)
+        self.contentView.layer.addSublayer(lastLayer)
+        
+        markLines.append(lastLayer)
+        
     }
 }

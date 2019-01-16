@@ -10,6 +10,14 @@ import UIKit
 
 class StockVolComponent: StockComponent {
     
+    init(_ bounds: CGRect) {
+        super.init(bounds, [])
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func setupUI() {
         super.setupUI()
         

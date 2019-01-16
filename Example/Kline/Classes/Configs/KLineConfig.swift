@@ -25,6 +25,8 @@ class BaseConfig {
     var tagFontSize: CGFloat = 8
     /// 标签类文字颜色
     var tagFontColor: UIColor = UIColor.init(red: 132 / 255.0, green: 138 / 255.0, blue: 151 / 255.0, alpha: 1)
+    /// 标记线颜色
+    var markLineColor: UIColor = UIColor.init(red: 238 / 255.0, green: 139 / 255.0, blue: 67 / 255.0, alpha: 1)
 }
 
 
@@ -43,6 +45,9 @@ class KLineConfig: BaseConfig {
     var verticalSeperatorNum: Int = 6
     /// 横竖屏下分割线的数量
     var horizonSeperatorNum: Int = 10
+    /// 分时背景颜色
+    var minuteBgColor: UIColor = UIColor.init(red: 54 / 255.0, green: 143 / 255.0, blue: 251 / 255.0, alpha: 0.3)
+
     
     static var shareConfig: KLineConfig = KLineConfig.init()
     private override init() { }

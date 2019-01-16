@@ -9,6 +9,12 @@
 
 import UIKit
 
+public enum StcokLineType {
+    case minute
+    case kline
+}
+
+
 class StockProviderView: UIView {
 
     /// 滚动的视图
@@ -31,27 +37,23 @@ class StockProviderView: UIView {
     fileprivate var _beganOffset: CGPoint = .zero
     /// 内容宽度
     fileprivate var contentSize: CGSize = .zero
-    /// 偏移的位置
-    fileprivate var offsetX: CGFloat = 0
-    
+    /// 开始的位置
     fileprivate var _beginCandleIndex: Int = 0
     /// 当前绘制的第一个下标
-    fileprivate var candleIndex: Int = 0 {
-        didSet {
-            self.offsetX = CGFloat(self.candleIndex) * self.candleWidth
-        }
-    }
-    
-    fileprivate lazy var contentView: UIView = {
-        return UIView.init()
-    }()
-    
+    fileprivate var candleIndex: Int = -1
+    /// 十字线layer
+    fileprivate var crossLineLayer: CAShapeLayer? = nil
     /// 数据源协议
     var dataSource: StockProviderViewDataSource? = nil
     /// 当前k线最大的绘制开始下标
     fileprivate var _maxDrawIndex: Int = 0
     /// 默认视图
-    fileprivate lazy var klineView: StockLineView = { return StockLineView.init(KLineConfig.shareConfig, self._isHorizon) }()
+    fileprivate lazy var klineView: StockBaseLineView = {
+        return StockBaseLineView.init(KLineConfig.shareConfig, _isHorizon)
+    }()
+    /// 股票的类型
+    fileprivate var type: StcokLineType = .kline
+    
     // MARK: 计算属性
     /// 蜡烛图的宽度 (动态变化, 会随着手势变化而变化)
     var candleWidth: CGFloat {
@@ -82,10 +84,12 @@ class StockProviderView: UIView {
     }
     fileprivate let _isHorizon: Bool
     
-    init(_ isHorizon: Bool, _ scale: CGFloat) {
+    init(_ lineBounds: CGRect, _ isHorizon: Bool, _ scale: CGFloat, _ componets: [StockComponent]) {
         self._isHorizon = isHorizon
         self._scale = scale
+        self.components = componets
         super.init(frame: .zero)
+        self.klineView.frame = lineBounds
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -104,7 +108,6 @@ class StockProviderView: UIView {
     }
     
     fileprivate func setupUI() {
-        klineView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: 230)
         contentScroll.addSubview(klineView)
         contentScroll.frame = self.bounds
         contentScroll.contentSize = contentScroll.bounds.size
@@ -127,45 +130,60 @@ class StockProviderView: UIView {
 //
 extension StockProviderView {
     
-    
     /// 刷新数据
     public func reloadData() {
-        /// 计算contentSize
-        guard let count = dataSource?.numberOfCandles(self) else { return }
-        self._candlesCount = count
-        self.willDrawCandle(self._maxDrawIndex, count - 1)
+        guard let type = dataSource?.providerDataType(self) else { return }
+        self.type = type
+        self.crossLineLayer?.removeFromSuperlayer()
+        self.crossLineLayer = nil
+        if type == .kline {
+            guard let count = dataSource?.numberOfCandles(self) else { return }
+            self._candlesCount = count
+            if self.candleIndex >= 0 {
+                self.willDrawCandle(self.candleIndex, self.caculateEndIndex())
+            } else {
+                self.willDrawCandle(self._maxDrawIndex, count - 1)
+            }
+        } else {
+            guard let minutes = dataSource?.loadMinuteData(self) else { return }
+            self.klineView.reloadMinute(82.00, minutes)
+        }
+        
+        self.updateComponents()
     }
-
-    /// 插入子视图
-    public func insertComponent(_ c: StockComponent, _ isScroll: Bool = false) {
-        self.components.append(c)
+    
+    fileprivate func updateComponents() {
         self.recaculateContentSize()
         var preY: CGFloat = self.klineView.bounds.height
         self.components.forEach { component in
             component.frame = CGRect.init(x: 0, y: preY, width: component.bounds.width, height: component.bounds.height)
             preY += component.bounds.height
+            if component.superview == nil {
+                self.contentScroll.addSubview(component)
+            }
         }
-        self.contentScroll.addSubview(c)
+    }
+    
+
+    /// 插入子视图
+    public func insertComponent(_ c: StockComponent) {
+        self.components.append(c)
+        updateComponents()
         self.willDrawCandle(self.candleIndex, caculateEndIndex())
         let offsetY = self.contentScroll.contentSize.height - self.contentScroll.bounds.height
-        if isScroll {
-            self.contentScroll.setContentOffset(CGPoint.init(x: 0, y: offsetY), animated: true)
-        } else {
-            self.frame = CGRect.init(x: self.frame.minX, y: self.frame.minY, width: self.bounds.width, height: self.contentScroll.contentSize.height)
-            self.contentScroll.frame = CGRect.init(x: 0, y: 0, width: self.contentScroll.bounds.width, height: self.contentScroll.contentSize.height)
-        }
+        self.contentScroll.setContentOffset(CGPoint.init(x: 0, y: offsetY), animated: true)
     }
     
     /// 移除子视图
-    public func deleteSubview() {
-    
+    public func deleteSubview(_ c: StockComponent) {
+        guard let index = components.firstIndex(of: c) else { return }
+        components.remove(at: index)
+        self.recaculateContentSize()
+        let offsetY = self.contentScroll.contentSize.height - self.contentScroll.bounds.height
+        self.contentScroll.setContentOffset(CGPoint.init(x: 0, y: offsetY), animated: true)
     }
     
-    public func updateSize(_ size: CGSize) {
-
-    }
-    
-    
+    /// 计算当前结尾下标
     fileprivate func caculateEndIndex() -> Int {
         let end = self.candleIndex + self._candlesOfScreen - 1
         if end > self._candlesCount - 1 {
@@ -174,8 +192,7 @@ extension StockProviderView {
         return end
     }
     
-    
-    
+    /// 即将绘制的k线模型
     fileprivate func willDrawCandle(_ began: Int, _ end: Int) {
         self.candleIndex = began
         guard let models = dataSource?.willShowCandles(self, began, end) else { return }
@@ -227,13 +244,65 @@ extension StockProviderView {
 extension StockProviderView {
     /// 长按手势监听
     @objc fileprivate func longtap(_ event: UILongPressGestureRecognizer) {
+        let p = event.location(in: self.contentScroll)
+        let paddingLeft = self.klineView.contentInset.left
+        var offsetx = p.x - paddingLeft
+        if offsetx < 0 {
+            offsetx = 0
+        } else if offsetx > self.klineView.maxBorderX {
+            offsetx = self.klineView.maxBorderX
+        }
+        self.crossLineLayer?.removeFromSuperlayer()
+        self.crossLineLayer = nil
+        var touchX: CGFloat = 0
+        self.touchYLocation(p)
+        if self.type == .kline {
+            touchX = self.touchXLocation(offsetx, self.candleWidth, paddingLeft, self.klineView.contentInset.right)
+        } else {
+            touchX = self.touchXLocation(offsetx, self.klineView.candleW, paddingLeft, self.klineView.contentInset.right)
+        }
+        let crossLinePath = UIBezierPath.drawLines([(CGPoint.init(x: touchX, y: 0), CGPoint.init(x: touchX, y: self.contentScroll.contentSize.height))])
+        self.crossLineLayer = CAShapeLayer.drawLayer(CGRect.init(x: 0, y: 0, width: self.contentScroll.bounds.width, height: self.contentScroll.contentSize.height) , crossLinePath, KLineConfig.shareConfig.tagFontColor, false, 1)
+        self.contentScroll.layer.addSublayer(self.crossLineLayer!)
+        switch event.state {
+        case .ended:
+            self.crossLineLayer?.removeFromSuperlayer()
+            self.crossLineLayer = nil
+            break
+        default:
+            break
+        }
     }
+    
+    fileprivate func touchXLocation(_ offsetx: CGFloat, _ candleW: CGFloat, _ paddingLeft: CGFloat, _ paddingRight: CGFloat) -> CGFloat {
+        var touchX: CGFloat = 0
+        let index = Int(offsetx / candleW)
+        touchX = (CGFloat(index) + 0.5) * candleW + paddingLeft
+        let minX = paddingLeft + candleW * 0.5
+        let maxX = self.klineView.maxBorderX + paddingLeft
+        if touchX < minX {
+            touchX = minX
+        } else if touchX > maxX {
+            touchX = maxX
+        }
+        return touchX
+    }
+    
+    fileprivate func touchYLocation(_ p: CGPoint) -> CGFloat {
+        let contains = self.klineView.point(inside: p, with: nil)
+        if contains {
+           self.klineView
+        }
+        
+    }
+    
     
     /// 手势缩放
     @objc func scaleScroll(_ event: UIPinchGestureRecognizer) {
         let p = event.location(in: self.contentScroll)
         let canScale = self.caculateScale(event)
         if !canScale { return }
+        if self.type != .kline { return }
         self.preScale = event.scale
         switch event.state {
         case .began:
@@ -290,39 +359,30 @@ extension StockProviderView {
     }
     /// 开始拖动
     @objc fileprivate func panScroll(_ pan: UIPanGestureRecognizer) {
-        /// 只是处理左右滚动
         let p = pan.location(in: self)
         let offset = p.x - self.beginPanPoint.x
-        let offsetIndex = Int(offset / self.candleWidth)
-        let began = self._beginCandleIndex - offsetIndex
-        
         switch pan.state {
         case .began:
             self.beginPanPoint = p
             self._beginCandleIndex = self.candleIndex
             break
         case .changed:
-            if began > self._maxDrawIndex {
-                if self.candleIndex != self._maxDrawIndex {
-                    self.willDrawCandle(self._maxDrawIndex, self._candlesCount - 1)
-                }
-                self.willBoundsOfRange(offset)
-            } else if began < 0 {
-                if self.candleIndex != 0 {
-                    self.willDrawCandle(0, self._candlesOfScreen)
-                }
-                self.willBoundsOfRange(offset)
+            if self.type == .kline {
+                let offsetIndex = Int(offset / self.candleWidth)
+                let begin = self._beginCandleIndex - offsetIndex
+                self.handlePan(begin, offset)
             } else {
-                let end = began + self._candlesOfScreen - 1
-                if began == self._maxDrawIndex {
-                    self.willDrawCandle(self._maxDrawIndex, self._candlesCount - 1)
-                } else {
-                    self.willDrawCandle(began, end)
-                }
+                self.klineView.transform(offset * 0.5)
             }
             break
         case .ended:
-            if began > self._maxDrawIndex || began < 0 {
+            if self.type == .kline {
+                let offsetIndex = Int(offset / self.candleWidth)
+                let begin = self._beginCandleIndex - offsetIndex
+                if begin > self._maxDrawIndex || begin < 0 {
+                    endPan()
+                }
+            } else {
                 endPan()
             }
             break
@@ -345,5 +405,27 @@ extension StockProviderView {
         self.components.forEach { c in
             c.transform(offset * 0.5)
         }
+    }
+    /// 处理拖拽
+    fileprivate func handlePan(_ begin: Int, _ offset: CGFloat) {
+        if begin > self._maxDrawIndex {
+            if self.candleIndex != self._maxDrawIndex {
+                self.willDrawCandle(self._maxDrawIndex, self._candlesCount - 1)
+            }
+            self.willBoundsOfRange(offset)
+        } else if begin < 0 {
+            if self.candleIndex != 0 {
+                self.willDrawCandle(0, self._candlesOfScreen)
+            }
+            self.willBoundsOfRange(offset)
+        } else {
+            let end = begin + self._candlesOfScreen - 1
+            if begin == self._maxDrawIndex {
+                self.willDrawCandle(self._maxDrawIndex, self._candlesCount - 1)
+            } else {
+                self.willDrawCandle(begin, end)
+            }
+        }
+        
     }
 }

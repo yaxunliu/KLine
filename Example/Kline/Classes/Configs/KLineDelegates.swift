@@ -30,16 +30,19 @@ protocol BaseKLineModel {
     var indexColor: [String: UIColor] { get set }
 }
 
-
-protocol StockProviderViewDataSource {
-    func numberOfCandles(_ view: StockProviderView) -> Int
-    /// 返回将要显示的蜡烛图模型
-    func willShowCandles(_ view: StockProviderView, _ begin: Int, _ end: Int) -> [BaseKLineModel]
+protocol BaseKlineMinuteModel {
+    var time: TimeInterval { get set }
+    var minutePrice: CGFloat { get set }
+    var volume: CGFloat { get set }
 }
 
 
-
-
+protocol StockProviderViewDataSource {
+    func numberOfCandles(_ view: StockProviderView) -> Int
+    func willShowCandles(_ view: StockProviderView, _ begin: Int, _ end: Int) -> [BaseKLineModel]
+    func providerDataType(_ view: StockProviderView) -> StcokLineType
+    func loadMinuteData(_ view: StockProviderView) -> [KLineMinuteModel]
+}
 
 protocol StockComponentDelegate {
     /// 手势缩放 刷新

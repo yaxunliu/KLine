@@ -163,10 +163,10 @@ class StockMacdComponent: StockComponent {
         var x = self.drawBoardView.frame.minX + 5
         let y = self.drawBoardView.frame.minY / 2 - KLineConfig.shareConfig.tagFontSize * 0.5
         let h = KLineConfig.shareConfig.tagFontSize
-        let tagLayer = CATextLayer.initWithFrame(CGRect.init(x: x, y: y, width: 80, height: h) , KLineConfig.shareConfig.tagFontSize, .white, "MACD(12,26,9)")
+        let tagLayer = CATextLayer.initWithFrame(CGRect.init(x: x, y: y, width: 70, height: h) , KLineConfig.shareConfig.tagFontSize, .white, "MACD(12,26,9)")
         self.contentView.layer.addSublayer(tagLayer)
-        x += 80
-        let w: CGFloat = 44
+        x += 70
+        let w: CGFloat = 50
         let kLayer = CATextLayer.initWithFrame(CGRect.init(x: x, y: y, width: w, height: h) , KLineConfig.shareConfig.tagFontSize, self.lineColor("DIF"), "DIF: 0.00")
         self.contentView.layer.addSublayer(kLayer)
         x += w

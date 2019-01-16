@@ -11,25 +11,23 @@ import UIKit
 class ViewController: UIViewController {
     
     var dataSource: [KLineModel] = []
-    let providerView: StockProviderView = StockProviderView.init(false, 0.5)
+    var minuteDataSource: [KLineMinuteModel] = []
+    lazy var providerView: StockProviderView = {
+        let view = StockProviderView.init(CGRect.init(x: 0, y: 0, width: 375, height: 230), false, 0.5, [StockKDJComponent.init(CGRect.init(x: 0, y: 0, width: 375, height: 90) , ["k", "d", "j"]), StockVolComponent.init(CGRect.init(x: 0, y: 0, width: 375, height: 90)), StockMacdComponent.init(CGRect.init(x: 0, y: 0, width: 375, height: 90) , ["MACD", "DEA", "DIF"])])
+        view.frame = CGRect(x: 0, y: 100, width: self.view.frame.width, height: 500)
+        view.dataSource = self
+        return view
+    }()
     var willRenderData: [KLineModel] = []
+    
+    fileprivate var type: StcokLineType = .kline
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        providerView.frame = CGRect(x: 0, y: 100, width: self.view.frame.width, height: 230)
-        providerView.dataSource = self
         view.addSubview(providerView)
         requestData()
+        
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let comp =
-            StockMacdComponent.init(CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: 90), ["k","d","j"])
-        providerView.insertComponent(comp)
-
-    }
-    
     fileprivate func requestData() {
         let path = Bundle.main.path(forResource: "line.json", ofType: nil) ?? ""
         guard let nsData = NSData.init(contentsOfFile: path) else { return }
@@ -51,15 +49,34 @@ class ViewController: UIViewController {
             }
             self.caculateKDJIndicator()
             self.caculateMACD()
-            providerView.reloadData()
+            self.loadMinuteData()
+            self.providerView.reloadData()
         }catch(let err) {
             print(err)
         }
     }
     
-    fileprivate func transform() {
-        
+    
+    
+    fileprivate func loadMinuteData() {
+        let path = Bundle.main.path(forResource: "minute.json", ofType: nil) ?? ""
+        guard let nsData = NSData.init(contentsOfFile: path) else { return }
+        let jsonData = Data.init(referencing: nsData)
+        do {
+            guard let dict = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String:Any] else { return }
+            guard let arrs = dict["data"] as? [[Any]] else { return }
+            arrs.forEach { arr in
+                let time = TimeInterval((arr[0] as? Double ?? 0))
+                let price = CGFloat((arr[1] as? Double ?? 0))
+                let volume = CGFloat((arr[2] as? Double ?? 0))
+                let model = KLineMinuteModel.init(time: time, minutePrice: price, volume: volume, openPrice: 82.1)
+                minuteDataSource.append(model)
+            }
+        }catch(let err) {
+            print(err)
+        }
     }
+    
     
     /*KDJ(9,3.3),下面以该参数为例说明计算方法。
      9，3，3代表指标分析周期为9天，K值D值为3天
@@ -115,83 +132,31 @@ class ViewController: UIViewController {
         }
     }
     
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if self.type == .kline {
+            self.type = .minute
+        } else {
+            self.type = .kline
+        }
+        
+        self.providerView.reloadData()
+    }
 
 }
 
 extension ViewController: StockProviderViewDataSource {
+    func providerDataType(_ view: StockProviderView) -> StcokLineType {
+        return type
+    }
+    func loadMinuteData(_ view: StockProviderView) -> [KLineMinuteModel] {
+        return minuteDataSource
+    }
     func willShowCandles(_ view: StockProviderView, _ begin: Int, _ end: Int) -> [BaseKLineModel] {
         return Array(self.dataSource[begin...end])
     }
-
     func numberOfCandles(_ view: StockProviderView) -> Int {
         return self.dataSource.count
     }
-    
 }
-
-/*
-
-extension ViewController: KLineDataSource, KLineDelegate {
-    func numberOfCandles(_ view: KLineView) -> Int {
-        return dataSource.count
-    }
-    
-    func willShowCandles(_ view: KLineView, _ begin: Int, _ end: Int) -> [BaseKLineModel] {
-        self.willRenderData = Array(dataSource[begin..<end+1])
-        return self.willRenderData
-    }
-    
-    func startRenderIndex(_ view: KLineView) -> Int {
-        return dataSource.count - 1
-    }
-    
-    func currentCandlesType(_ view: KLineView) -> KlineAdjustType {
-        return KlineAdjustType.unadjust
-    }
-    
-    func showCandles(_ view: KLineView, _ models: [BaseKLineModel]) {
-        self.indexView.reloadData(view._candlesOfScreen, view.candleWidth)
-    }
-    
-    func longPress(_ view: KLineView, _ index: Int, _ position: CGPoint, _ price: CGFloat?, _ isBegan: Bool, _ isEnd: Bool) {
-        
-    }
-    
-    func scale(_ view: KLineView, _ scale: CGFloat, _ began: Int, _ end: Int, _ candleW: CGFloat) {
-    
-    }
-    
-    func transform(_ view: KLineView, _ tx: CGFloat) {
-        
-        
-        
-    }
-}
-
-
-extension ViewController: IndexLineDataSource {
-    func willRenderLines(_ view: IndexLineView) -> [BaseIndexLineModel] {
-        return self.willRenderData
-    }
-
-    func startRenderIndex(_ view: IndexLineView) -> Int {
-        return 0
-    }
-    
-    func namesOfIndexLines(_ view: IndexLineView) -> [String] {
-        return ["k", "d", "j"]
-    }
-
-    func isRenderLine(_ view: IndexLineView, _ indexName: String) -> Bool {
-        return true
-    }
-    
-    func indexRefrenceSystemType(_ view: IndexLineView) -> IndexRefrenceSystem {
-        return IndexRefrenceSystem.free
-    }
-    
-    func numberOfIndexLines(_ view: IndexLineView) -> Int {
-        return self.dataSource.count
-    }
-}
-*/

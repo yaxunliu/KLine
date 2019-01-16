@@ -18,6 +18,8 @@
 		9EA4AAFD2100D9B900EFF0EF /* KlineTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4AAFC2100D9B900EFF0EF /* KlineTimeModel.swift */; };
 		9EA4AAFF2100D9DC00EFF0EF /* minute.json in Resources */ = {isa = PBXBuildFile; fileRef = 9EA4AAFE2100D9DC00EFF0EF /* minute.json */; };
 		AFAAB385D9E41F29CEF9B97B /* Pods_Kline_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCC1607BD8749692D629140 /* Pods_Kline_Tests.framework */; };
+		CF1A569021EECCDA00C7A70B /* KLineMinuteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1A568F21EECCDA00C7A70B /* KLineMinuteModel.swift */; };
+		CF1A569221EECDB400C7A70B /* StockBaseLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1A569121EECDB400C7A70B /* StockBaseLineView.swift */; };
 		CF1BC13721E596C600CE1D48 /* KLineDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC13621E596C600CE1D48 /* KLineDelegates.swift */; };
 		CF1BC13921E59B2900CE1D48 /* KlineDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC13821E59B2900CE1D48 /* KlineDataTypes.swift */; };
 		CF1BC13B21E59EE200CE1D48 /* KLineConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC13A21E59EE200CE1D48 /* KLineConfig.swift */; };
@@ -28,7 +30,6 @@
 		CF1BC14621E5E96900CE1D48 /* KLineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BC14521E5E96900CE1D48 /* KLineModel.swift */; };
 		CF350ABE21EC39F400A059E3 /* CGFloat-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF350ABD21EC39F400A059E3 /* CGFloat-Extension.swift */; };
 		CF56B3A721EC7A7400443290 /* StockProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56B3A621EC7A7400443290 /* StockProviderView.swift */; };
-		CF56B3A921EC7E8B00443290 /* StockLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56B3A821EC7E8B00443290 /* StockLineView.swift */; };
 		CF56B3AB21ED83CF00443290 /* StockComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56B3AA21ED83CF00443290 /* StockComponent.swift */; };
 		CF56B3AD21EDC03900443290 /* StockVolComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56B3AC21EDC03900443290 /* StockVolComponent.swift */; };
 		CF56B3AF21EDC49800443290 /* StockKDJComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56B3AE21EDC49800443290 /* StockKDJComponent.swift */; };
@@ -68,6 +69,8 @@
 		9EA4AAFC2100D9B900EFF0EF /* KlineTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlineTimeModel.swift; sourceTree = "<group>"; };
 		9EA4AAFE2100D9DC00EFF0EF /* minute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = minute.json; sourceTree = "<group>"; };
 		C7D9216685A06CF1E41AF6B1 /* Pods-Kline_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kline_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kline_Example/Pods-Kline_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		CF1A568F21EECCDA00C7A70B /* KLineMinuteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineMinuteModel.swift; sourceTree = "<group>"; };
+		CF1A569121EECDB400C7A70B /* StockBaseLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockBaseLineView.swift; sourceTree = "<group>"; };
 		CF1BC13621E596C600CE1D48 /* KLineDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineDelegates.swift; sourceTree = "<group>"; };
 		CF1BC13821E59B2900CE1D48 /* KlineDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlineDataTypes.swift; sourceTree = "<group>"; };
 		CF1BC13A21E59EE200CE1D48 /* KLineConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineConfig.swift; sourceTree = "<group>"; };
@@ -78,7 +81,6 @@
 		CF1BC14521E5E96900CE1D48 /* KLineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLineModel.swift; sourceTree = "<group>"; };
 		CF350ABD21EC39F400A059E3 /* CGFloat-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CGFloat-Extension.swift"; path = "Kline/Classes/CGFloat-Extension.swift"; sourceTree = SOURCE_ROOT; };
 		CF56B3A621EC7A7400443290 /* StockProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockProviderView.swift; sourceTree = "<group>"; };
-		CF56B3A821EC7E8B00443290 /* StockLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockLineView.swift; sourceTree = "<group>"; };
 		CF56B3AA21ED83CF00443290 /* StockComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockComponent.swift; sourceTree = "<group>"; };
 		CF56B3AC21EDC03900443290 /* StockVolComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockVolComponent.swift; sourceTree = "<group>"; };
 		CF56B3AE21EDC49800443290 /* StockKDJComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockKDJComponent.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				9EA4AAFC2100D9B900EFF0EF /* KlineTimeModel.swift */,
 				CF1BC14321E5E65A00CE1D48 /* line.json */,
 				CF1BC14521E5E96900CE1D48 /* KLineModel.swift */,
+				CF1A568F21EECCDA00C7A70B /* KLineMinuteModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -232,7 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				CF56B3A621EC7A7400443290 /* StockProviderView.swift */,
-				CF56B3A821EC7E8B00443290 /* StockLineView.swift */,
+				CF1A569121EECDB400C7A70B /* StockBaseLineView.swift */,
 				CF56B3AA21ED83CF00443290 /* StockComponent.swift */,
 				CF56B3AC21EDC03900443290 /* StockVolComponent.swift */,
 				CF56B3AE21EDC49800443290 /* StockKDJComponent.swift */,
@@ -459,8 +462,8 @@
 				CF56B3AB21ED83CF00443290 /* StockComponent.swift in Sources */,
 				CF1BC14021E5C5B300CE1D48 /* CAShapeLayer-Extension.swift in Sources */,
 				CF350ABE21EC39F400A059E3 /* CGFloat-Extension.swift in Sources */,
-				CF56B3A921EC7E8B00443290 /* StockLineView.swift in Sources */,
 				CF1BC13721E596C600CE1D48 /* KLineDelegates.swift in Sources */,
+				CF1A569021EECCDA00C7A70B /* KLineMinuteModel.swift in Sources */,
 				CF1BC13B21E59EE200CE1D48 /* KLineConfig.swift in Sources */,
 				9EA4AAFD2100D9B900EFF0EF /* KlineTimeModel.swift in Sources */,
 				CFC8B01921E70CFF007292E9 /* Date-Extension.swift in Sources */,
@@ -468,6 +471,7 @@
 				CF1BC13921E59B2900CE1D48 /* KlineDataTypes.swift in Sources */,
 				CF56B3B121EDE3B200443290 /* StockMacdComponent.swift in Sources */,
 				CF56B3AF21EDC49800443290 /* StockKDJComponent.swift in Sources */,
+				CF1A569221EECDB400C7A70B /* StockBaseLineView.swift in Sources */,
 				CF1BC14621E5E96900CE1D48 /* KLineModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
