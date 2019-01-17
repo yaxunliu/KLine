@@ -10,6 +10,8 @@ import UIKit
 
 class StockVolComponent: StockComponent {
     
+    fileprivate var averagePrice: CGFloat = 0
+    
     init(_ bounds: CGRect) {
         super.init(bounds, [])
     }
@@ -57,7 +59,7 @@ class StockVolComponent: StockComponent {
         if w < 1 {
             w = 1
         }
-        
+        self.averagePrice = maxVolume / self.drawBoardView.bounds.height
         /// 更新文字内容
         self.updateMarks(maxVolume)
         
@@ -84,6 +86,13 @@ class StockVolComponent: StockComponent {
         }
     }
     
+    override func touchLocationY(_ p: CGPoint) -> CGFloat? {
+        let y = p.y - self.frame.minY
+        if y < self.drawBoardView.frame.maxY {
+            return CGFloat(Int((self.drawBoardView.frame.maxY - y) * averagePrice)).roundTo(places: 0)
+        }        
+        return nil
+    }
 }
 
 extension StockVolComponent {

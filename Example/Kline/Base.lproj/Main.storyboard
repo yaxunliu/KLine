@@ -20,7 +20,29 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jen-xO-quZ">
+                                <rect key="frame" x="135.5" y="485.5" width="104" height="30"/>
+                                <state key="normal" title="切换 分时和k线"/>
+                                <connections>
+                                    <action selector="exchangeType:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="jn4-do-lR4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sBL-eR-Shv">
+                                <rect key="frame" x="137" y="525.5" width="62" height="30"/>
+                                <state key="normal" title="切换横屏"/>
+                                <connections>
+                                    <action selector="exchangeHorizonl:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="RkM-oo-mTc"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Jen-xO-quZ" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="PHW-V5-DUl"/>
+                            <constraint firstItem="sBL-eR-Shv" firstAttribute="top" secondItem="Jen-xO-quZ" secondAttribute="bottom" constant="10" id="cx0-b7-Mpe"/>
+                            <constraint firstItem="Jen-xO-quZ" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" multiplier="1.5" id="s27-vr-a46"/>
+                            <constraint firstItem="Jen-xO-quZ" firstAttribute="leading" secondItem="sBL-eR-Shv" secondAttribute="trailing" constant="-63.5" id="zln-gY-gjF"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

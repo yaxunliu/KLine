@@ -35,6 +35,8 @@
 		CF56B3AF21EDC49800443290 /* StockKDJComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56B3AE21EDC49800443290 /* StockKDJComponent.swift */; };
 		CF56B3B121EDE3B200443290 /* StockMacdComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56B3B021EDE3B200443290 /* StockMacdComponent.swift */; };
 		CFC8B01921E70CFF007292E9 /* Date-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC8B01821E70CFF007292E9 /* Date-Extension.swift */; };
+		CFDC320021F0562B00F3E0FF /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC31FF21F0562B00F3E0FF /* TestViewController.swift */; };
+		CFDC320221F05AE600F3E0FF /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC320121F05AE600F3E0FF /* HeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,8 @@
 		CF56B3AE21EDC49800443290 /* StockKDJComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockKDJComponent.swift; sourceTree = "<group>"; };
 		CF56B3B021EDE3B200443290 /* StockMacdComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockMacdComponent.swift; sourceTree = "<group>"; };
 		CFC8B01821E70CFF007292E9 /* Date-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date-Extension.swift"; sourceTree = "<group>"; };
+		CFDC31FF21F0562B00F3E0FF /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		CFDC320121F05AE600F3E0FF /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		EFCC1607BD8749692D629140 /* Pods_Kline_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kline_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -147,6 +151,8 @@
 				9EA4AAF42100D81900EFF0EF /* Classes */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				CFDC31FF21F0562B00F3E0FF /* TestViewController.swift */,
+				CFDC320121F05AE600F3E0FF /* HeaderView.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -460,6 +466,8 @@
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				CF56B3AB21ED83CF00443290 /* StockComponent.swift in Sources */,
+				CFDC320221F05AE600F3E0FF /* HeaderView.swift in Sources */,
+				CFDC320021F0562B00F3E0FF /* TestViewController.swift in Sources */,
 				CF1BC14021E5C5B300CE1D48 /* CAShapeLayer-Extension.swift in Sources */,
 				CF350ABE21EC39F400A059E3 /* CGFloat-Extension.swift in Sources */,
 				CF1BC13721E596C600CE1D48 /* KLineDelegates.swift in Sources */,

@@ -39,6 +39,10 @@ class StockBaseLineView: UIView {
     var markLines: [CAShapeLayer] = []
     /// 最大的边界x值
     var maxBorderX: CGFloat = 0
+    /// 平均值
+    fileprivate var averageY: CGFloat = 0
+    /// y最大值
+    fileprivate var maxYPrice: CGFloat = 0
     
     /// 分时图的宽度
     var candleW: CGFloat { get { return self.drawBoardView.bounds.width / 360 } }
@@ -137,7 +141,10 @@ class StockBaseLineView: UIView {
 
     /// 当y值在这里的时候 对应的价格是多少
     func valueOfY(_ y: CGFloat) -> CGFloat? {
-        
+        if y < self.contentView.frame.minY + self._config.tagFontSize {
+            return self.maxYPrice + (self.contentView.frame.minY - y) * self.averageY
+        }
+        return self.maxYPrice - (y - self.contentView.frame.minY - self._config.tagFontSize) * self.averageY
     }
 }
 
@@ -158,7 +165,7 @@ extension StockBaseLineView {
         highestPrice += minus
         
         /// 3.根据最大值计算出标记文字
-        let averagePrice = (highestPrice - lowestPrice) / CGFloat(self.markStrings.count)
+        let averagePrice = (highestPrice - lowestPrice) / CGFloat(self.markStrings.count - 1)
         var currentPrice = highestPrice
         self.markStrings.forEach { layer in
             layer.string = String.init(format: "%.2f", currentPrice)
@@ -168,6 +175,8 @@ extension StockBaseLineView {
         /// 4.开始绘制k线
         let offsetY = self._config.tagFontSize
         let averageHeight = (self.contentView.bounds.height - offsetY) / (highestPrice - lowestPrice)
+        self.averageY = (highestPrice - lowestPrice) / (self.drawBoardView.bounds.height - offsetY)
+        self.maxYPrice = highestPrice
         var upPath: UIBezierPath? = nil
         var downPath: UIBezierPath? = nil
         var linePath: UIBezierPath? = nil
@@ -290,7 +299,7 @@ extension StockBaseLineView {
         min -= minus
         
         /// 2.计算出文字的
-        let averagePrice = (max - min) / CGFloat(self.markStrings.count)
+        let averagePrice = (max - min) / CGFloat(self.markStrings.count - 1)
         var currentPrice = max
         zip(self.markStrings, self.rateLayers).forEach { (str, rate) in
             str.string = String.init(format: "%.2f", currentPrice)
@@ -301,7 +310,9 @@ extension StockBaseLineView {
             currentPrice -= averagePrice
         }
         let averageH = self.drawBoardView.bounds.height / (max - min)
-        
+        self.averageY = (max - min) / (self.drawBoardView.bounds.height - self._config.tagFontSize)
+        self.maxYPrice = max
+
         /// 3.开始绘制折线图
         var points: [CGPoint] = []
         models.enumerated().forEach { (index, model) in

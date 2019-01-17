@@ -43,6 +43,9 @@ class StockProviderView: UIView {
     fileprivate var candleIndex: Int = -1
     /// 十字线layer
     fileprivate var crossLineLayer: CAShapeLayer? = nil
+    /// 十字线文字layer
+    fileprivate var crossLineTextLayers: [CATextLayer] = []
+    
     /// 数据源协议
     var dataSource: StockProviderViewDataSource? = nil
     /// 当前k线最大的绘制开始下标
@@ -242,6 +245,15 @@ extension StockProviderView {
 
 // MARK: 手势监听
 extension StockProviderView {
+    
+    fileprivate func clearCrossLineLayers() {
+        self.crossLineLayer?.removeFromSuperlayer()
+        self.crossLineLayer = nil
+        self.crossLineTextLayers.forEach { text in
+            text.removeFromSuperlayer()
+        }
+        self.crossLineTextLayers.removeAll()
+    }
     /// 长按手势监听
     @objc fileprivate func longtap(_ event: UILongPressGestureRecognizer) {
         let p = event.location(in: self.contentScroll)
@@ -252,22 +264,30 @@ extension StockProviderView {
         } else if offsetx > self.klineView.maxBorderX {
             offsetx = self.klineView.maxBorderX
         }
-        self.crossLineLayer?.removeFromSuperlayer()
-        self.crossLineLayer = nil
+        self.clearCrossLineLayers()
         var touchX: CGFloat = 0
-        self.touchYLocation(p)
         if self.type == .kline {
             touchX = self.touchXLocation(offsetx, self.candleWidth, paddingLeft, self.klineView.contentInset.right)
         } else {
             touchX = self.touchXLocation(offsetx, self.klineView.candleW, paddingLeft, self.klineView.contentInset.right)
         }
-        let crossLinePath = UIBezierPath.drawLines([(CGPoint.init(x: touchX, y: 0), CGPoint.init(x: touchX, y: self.contentScroll.contentSize.height))])
+        let crossLinePath = UIBezierPath.drawLines([(CGPoint.init(x: touchX, y: 0), CGPoint.init(x: touchX, y: self.contentScroll.contentSize.height)), (CGPoint.init(x: paddingLeft, y: p.y),CGPoint.init(x: self.contentScroll.bounds.width - paddingLeft, y: p.y))])
         self.crossLineLayer = CAShapeLayer.drawLayer(CGRect.init(x: 0, y: 0, width: self.contentScroll.bounds.width, height: self.contentScroll.contentSize.height) , crossLinePath, KLineConfig.shareConfig.tagFontColor, false, 1)
         self.contentScroll.layer.addSublayer(self.crossLineLayer!)
+        
+        if p.y < 0 || p.y > self.contentScroll.contentSize.height { return }
+        
+        guard let yValue = self.touchYLocation(p) else { return }
+        let str = String.init(format: "%.2f", yValue)
+        let width = CGFloat(str.count) * KLineConfig.shareConfig.tagFontSize * 0.5
+        let textLayer = CATextLayer.initWithFrame(CGRect.init(x: self.klineView.contentView.frame.minX, y: p.y - KLineConfig.shareConfig.tagFontSize * 0.5 - 2, width: width, height: KLineConfig.shareConfig.tagFontSize + 4) , KLineConfig.shareConfig.tagFontSize, KLineConfig.shareConfig.tagFontColor, str)
+        textLayer.backgroundColor = UIColor.black.cgColor
+        textLayer.alignmentMode = "justified"
+        self.crossLineTextLayers.append(textLayer)
+        self.contentScroll.layer.addSublayer(textLayer)
         switch event.state {
         case .ended:
-            self.crossLineLayer?.removeFromSuperlayer()
-            self.crossLineLayer = nil
+            self.clearCrossLineLayers()
             break
         default:
             break
@@ -288,15 +308,23 @@ extension StockProviderView {
         return touchX
     }
     
-    fileprivate func touchYLocation(_ p: CGPoint) -> CGFloat {
-        let contains = self.klineView.point(inside: p, with: nil)
+    fileprivate func touchYLocation(_ p: CGPoint) -> CGFloat? {
+        let contains = self.klineView.frame.contains(p)
         if contains {
-           self.klineView
+            let price = self.klineView.valueOfY(p.y) ?? 0
+            return price
         }
         
+        var value: CGFloat? = nil
+        self.components.enumerated().forEach { index, c in
+            if c.frame.contains(p) {
+                value = c.touchLocationY(p)
+            }
+        }
+        return value
     }
     
-    
+
     /// 手势缩放
     @objc func scaleScroll(_ event: UIPinchGestureRecognizer) {
         let p = event.location(in: self.contentScroll)

@@ -48,7 +48,7 @@ protocol StockComponentDelegate {
     /// 手势缩放 刷新
     func reloadData(_ nums: Int, _ candleWidth: CGFloat, _ datas: [BaseKLineModel], _ isMin: Bool, _ scale: CGFloat)
     /// 长按手势的时候对应的y值
-    func longPress(_ p: CGPoint) -> CGFloat
+    func touchLocationY(_ p: CGPoint) -> CGFloat?
     /// 偏移
     func transform(_ tx: CGFloat)
 

@@ -76,6 +76,16 @@ class StockKDJComponent: StockComponent {
         self.contentView.layer.insertSublayer(layer, at: 0)
     }
     
+    override func touchLocationY(_ p: CGPoint) -> CGFloat? {
+        let y = p.y - self.frame.minY
+        if y <= self.drawBoardView.frame.maxY {
+            let average = (max - min) / self.drawBoardView.bounds.height
+            let value = (self.drawBoardView.frame.maxY - y) * average + min
+            return value
+        }
+        return nil
+    }
+    
 }
 
 extension StockKDJComponent {

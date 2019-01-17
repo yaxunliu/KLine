@@ -1,33 +1,61 @@
 //
-//  ViewController.swift
-//  Kline
+//  TestViewController.swift
+//  Kline_Example
 //
-//  Created by liuyaxun on 07/19/2018.
-//  Copyright (c) 2018 liuyaxun. All rights reserved.
+//  Created by yaxun on 2019/1/17.
+//  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
-    
+class TestViewController: UIViewController {
     var dataSource: [KLineModel] = []
     var minuteDataSource: [KLineMinuteModel] = []
     lazy var providerView: StockProviderView = {
-        let view = StockProviderView.init(CGRect.init(x: 0, y: 0, width: 375, height: 230), false, 0.5, [StockKDJComponent.init(CGRect.init(x: 0, y: 0, width: 375, height: 90) , ["k", "d", "j"]), StockVolComponent.init(CGRect.init(x: 0, y: 0, width: 375, height: 90)), StockMacdComponent.init(CGRect.init(x: 0, y: 0, width: 375, height: 90) , ["MACD", "DEA", "DIF"])])
-        view.frame = CGRect(x: 0, y: 100, width: self.view.frame.width, height: 230)
+        let h = self.view.bounds.width - 64
+        let w = self.view.bounds.height
+        let view = StockProviderView.init(CGRect.init(x: 0, y: 0, width: w, height: h), true, 0.5, [StockKDJComponent.init(CGRect.init(x: 0, y: 0, width: w, height: 120) , ["k", "d", "j"]), StockVolComponent.init(CGRect.init(x: 0, y: 0, width: w, height: 120)), StockMacdComponent.init(CGRect.init(x: 0, y: 0, width: w, height: 120) , ["MACD", "DEA", "DIF"])])
+        view.frame = CGRect(x: 0, y: 64, width: w, height: h)
         view.dataSource = self
         return view
     }()
     var willRenderData: [KLineModel] = []
-    
     fileprivate var type: StcokLineType = .kline
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(providerView)
-        requestData()
+        let header = HeaderView.init(CGRect.init(x: 0, y: 0, width: self.view.bounds.height, height: 64)) { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
         
+        header.exchangeType = { [weak self] in
+            self?.type = (self?.type == .kline ? .minute : .kline)
+            self?.providerView.reloadData()
+        }
+        self.view.addSubview(header)
+        self.view.addSubview(providerView)
+        requestData()
     }
+    
+    
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    override var shouldAutorotate: Bool {
+        return false
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .landscapeRight
+    }
+    
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+        return .landscapeRight
+    }
+    
     fileprivate func requestData() {
         let path = Bundle.main.path(forResource: "line.json", ofType: nil) ?? ""
         guard let nsData = NSData.init(contentsOfFile: path) else { return }
@@ -130,28 +158,11 @@ class ViewController: UIViewController {
         }
     }
     
-
-    
-    @IBAction func exchangeType(_ sender: Any) {
-        if type == .kline {
-            type = .minute
-        } else {
-            type = .kline
-        }
-        providerView.reloadData()
-    }
-    
-    @IBAction func exchangeHorizonl(_ sender: Any) {
-        let vc = TestViewController.init(nibName: nil, bundle: nil)
-        vc.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-        self.present(vc, animated: true, completion: nil)
-    }
-    
 }
 
-extension ViewController: StockProviderViewDataSource {
+extension TestViewController: StockProviderViewDataSource {
     func providerDataType(_ view: StockProviderView) -> StcokLineType {
-        return type
+        return  type
     }
     func loadMinuteData(_ view: StockProviderView) -> [KLineMinuteModel] {
         return minuteDataSource

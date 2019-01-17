@@ -11,6 +11,8 @@ import UIKit
 class StockComponent: UIView, StockComponentDelegate {
     /// 内边距
     var contentInset: UIEdgeInsets = UIEdgeInsets.init(top: 24, left: 10, bottom: 10, right: 10)
+    /// 平均值
+    fileprivate var averageY: CGFloat = 0
     /// 内容
     lazy var contentView: UIView = {
         let v = UIView.init()
@@ -59,8 +61,8 @@ class StockComponent: UIView, StockComponentDelegate {
         
     }
     
-    func longPress(_ p: CGPoint) -> CGFloat {
-        return 0
+    func touchLocationY(_ p: CGPoint) -> CGFloat? {
+        return nil
     }
     func transform(_ tx: CGFloat) {
         self.drawBoardView.transform = CGAffineTransform.init(translationX: tx, y: 0)

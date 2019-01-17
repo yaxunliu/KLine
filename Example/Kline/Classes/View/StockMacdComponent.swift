@@ -22,6 +22,8 @@ class StockMacdComponent: StockComponent {
 
     fileprivate var macdLayers: [CATextLayer] = []
     
+    fileprivate var averageH: CGFloat = 0
+    fileprivate var _minY: CGFloat = 0
     
     override func reloadData(_ nums: Int, _ candleWidth: CGFloat, _ datas: [BaseKLineModel], _ isMin: Bool, _ scale: CGFloat) {
         /// 0.移除之前绘制的
@@ -67,7 +69,8 @@ class StockMacdComponent: StockComponent {
         
         
         let average = self.drawBoardView.bounds.height / (max - min)
-
+        self.averageH = (max - min) / self.drawBoardView.bounds.height
+        _minY = min
         /// 3.更新提示文字的frame
         updateMarks(max, min, textValues, average)
         
@@ -176,6 +179,15 @@ class StockMacdComponent: StockComponent {
         let jLayer = CATextLayer.initWithFrame(CGRect.init(x: x, y: y, width: w, height: h) , KLineConfig.shareConfig.tagFontSize, self.lineColor("MACD"), "MACD: 0.00")
         self.contentView.layer.addSublayer(jLayer)
         self.macdLayers.append(contentsOf: [kLayer, dLayer, jLayer])
+    }
+    
+    
+    override func touchLocationY(_ p: CGPoint) -> CGFloat? {
+        let y = p.y - self.frame.minY
+        if y < self.drawBoardView.frame.maxY {
+            return _minY + (self.drawBoardView.frame.maxY - y) * self.averageH
+        }
+        return nil
     }
     
 }

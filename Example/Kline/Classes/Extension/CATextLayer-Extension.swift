@@ -11,7 +11,7 @@ import UIKit
 extension CATextLayer {
 
     
-    static func initWithFrame(_ frame: CGRect, _ fontSize: CGFloat, _ fontColor: UIColor, _ str: String = "0.00") -> CATextLayer {
+    static func initWithFrame(_ frame: CGRect, _ fontSize: CGFloat, _ fontColor: UIColor, _ str: String? = "0.00") -> CATextLayer {
         let textLayer = CATextLayer.init()
         textLayer.frame = frame
         textLayer.contentsScale = UIScreen.main.scale
