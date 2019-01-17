@@ -3,7 +3,7 @@
 本项目是模仿富途牛牛的k线图，部分功能不完善，目前已经开发的功能包括, 由于每个公司的需求不一，所以很难做成pod模板。
 
 
-![avatar](https://github.com/yaxunliu/KLine/blob/master/screenCapture.gif)
+![效果图](https://github.com/yaxunliu/KLine/blob/master/screenCapture.gif?raw=true)
 
 ***
 + k线绘制
