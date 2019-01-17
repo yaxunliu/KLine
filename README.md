@@ -3,8 +3,9 @@
 本项目是模仿富途牛牛的k线图，部分功能不完善，目前已经开发的功能包括, 由于每个公司的需求不一，所以很难做成pod模板。
 
 
+![avatar](https://github.com/yaxunliu/KLine/edit/master/screenCapture.gif)
 
-***+
+***
 + k线绘制
 + 分时图绘制
 + 移动手势, 缩放手势 和长按手势
