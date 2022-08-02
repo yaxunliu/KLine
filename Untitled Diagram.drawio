@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-08-02T09:54:59.830Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="bjcDaUZXCCaK0cTON4l9" version="16.6.4" type="github">
+<mxfile host="app.diagrams.net" modified="2022-08-02T09:58:47.060Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="yFRvebYy3hFAyYNBnrph" version="16.6.4" type="github">
   <diagram id="TsOPAc7wOIQLjuhQ4mTq" name="Page-1">
     <mxGraphModel dx="946" dy="614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -8,10 +8,10 @@
           <mxGeometry x="10" y="10" width="60" height="80" as="geometry" />
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-11" value="new repository" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
-          <mxGeometry x="145" y="10" width="60" height="80" as="geometry" />
+          <mxGeometry x="292" y="10" width="60" height="80" as="geometry" />
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-12" value="old repository" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
-          <mxGeometry x="270" y="10" width="60" height="80" as="geometry" />
+          <mxGeometry x="578" y="20" width="60" height="80" as="geometry" />
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-13" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=none;" edge="1" parent="1" source="-NG2RwacklTMyi9QmAKU-18" target="-NG2RwacklTMyi9QmAKU-10">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -19,16 +19,16 @@
             <mxPoint x="440" y="290" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="-NG2RwacklTMyi9QmAKU-14" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=none;" edge="1" parent="1" source="-NG2RwacklTMyi9QmAKU-28" target="-NG2RwacklTMyi9QmAKU-11">
+        <mxCell id="-NG2RwacklTMyi9QmAKU-14" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=none;" edge="1" parent="1" source="-NG2RwacklTMyi9QmAKU-28">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="380" y="120" as="sourcePoint" />
-            <mxPoint x="440" y="180" as="targetPoint" />
+            <mxPoint x="527" y="120" as="sourcePoint" />
+            <mxPoint x="322" y="90" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-15" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=none;" edge="1" parent="1" source="-NG2RwacklTMyi9QmAKU-31" target="-NG2RwacklTMyi9QmAKU-12">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="530" y="610" as="sourcePoint" />
-            <mxPoint x="640" y="150" as="targetPoint" />
+            <mxPoint x="838" y="610" as="sourcePoint" />
+            <mxPoint x="948" y="150" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-18" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
@@ -42,12 +42,12 @@
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-24" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="175" y="660" as="sourcePoint" />
-            <mxPoint x="174.5" y="200" as="targetPoint" />
+            <mxPoint x="322" y="660" as="sourcePoint" />
+            <mxPoint x="321.5" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-28" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
-          <mxGeometry x="170" y="120" width="10" height="80" as="geometry" />
+          <mxGeometry x="317" y="120" width="10" height="80" as="geometry" />
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-29" value="git clone xxx" style="html=1;verticalAlign=bottom;endArrow=block;entryX=0;entryY=0;rounded=0;" edge="1" target="-NG2RwacklTMyi9QmAKU-28" parent="1" source="-NG2RwacklTMyi9QmAKU-18">
           <mxGeometry relative="1" as="geometry">
@@ -55,28 +55,33 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-30" value="get empty repository" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;exitX=0;exitY=0.95;rounded=0;entryX=0.7;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" source="-NG2RwacklTMyi9QmAKU-28" parent="1" target="-NG2RwacklTMyi9QmAKU-18">
-          <mxGeometry relative="1" as="geometry">
+          <mxGeometry x="0.2147" y="2" relative="1" as="geometry">
             <mxPoint x="190" y="416" as="targetPoint" />
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-32" value="git add remote old xxxx" style="html=1;verticalAlign=bottom;endArrow=block;entryX=0;entryY=0;rounded=0;exitX=0.9;exitY=0.038;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" target="-NG2RwacklTMyi9QmAKU-31" parent="1" source="-NG2RwacklTMyi9QmAKU-34">
-          <mxGeometry relative="1" as="geometry">
+          <mxGeometry x="-0.6207" y="2" relative="1" as="geometry">
             <mxPoint x="535" y="240" as="sourcePoint" />
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-33" value="git remote old add success&amp;nbsp;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;exitX=0;exitY=0.95;rounded=0;entryX=0.9;entryY=0.975;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" source="-NG2RwacklTMyi9QmAKU-31" parent="1" target="-NG2RwacklTMyi9QmAKU-34">
-          <mxGeometry relative="1" as="geometry">
+          <mxGeometry x="0.6207" y="-2" relative="1" as="geometry">
             <mxPoint x="535" y="316" as="targetPoint" />
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-36" value="git checkout -b old master&amp;nbsp;" style="html=1;verticalAlign=bottom;endArrow=block;entryX=0;entryY=0;rounded=0;exitX=0.7;exitY=0.013;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" target="-NG2RwacklTMyi9QmAKU-35" parent="1" source="-NG2RwacklTMyi9QmAKU-38">
-          <mxGeometry relative="1" as="geometry">
+          <mxGeometry x="-0.6506" y="1" relative="1" as="geometry">
             <mxPoint x="160" y="370" as="sourcePoint" />
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-37" value="get old master branch: old/master" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;exitX=0;exitY=0.95;rounded=0;entryX=1.1;entryY=0.975;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" source="-NG2RwacklTMyi9QmAKU-35" parent="1" target="-NG2RwacklTMyi9QmAKU-38">
-          <mxGeometry relative="1" as="geometry">
+          <mxGeometry x="0.6265" y="-2" relative="1" as="geometry">
             <mxPoint x="535" y="446" as="targetPoint" />
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-38" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
@@ -89,21 +94,21 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-35" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
-          <mxGeometry x="295" y="380" width="10" height="80" as="geometry" />
+          <mxGeometry x="603" y="380" width="10" height="80" as="geometry" />
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-41" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="-NG2RwacklTMyi9QmAKU-35">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="300" y="660" as="sourcePoint" />
-            <mxPoint x="530" y="100" as="targetPoint" />
+            <mxPoint x="608" y="660" as="sourcePoint" />
+            <mxPoint x="838" y="100" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-31" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
-          <mxGeometry x="295" y="240" width="10" height="80" as="geometry" />
+          <mxGeometry x="603" y="240" width="10" height="80" as="geometry" />
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-42" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=none;" edge="1" parent="1" source="-NG2RwacklTMyi9QmAKU-35" target="-NG2RwacklTMyi9QmAKU-31">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="530" y="370" as="sourcePoint" />
-            <mxPoint x="530" y="100" as="targetPoint" />
+            <mxPoint x="838" y="370" as="sourcePoint" />
+            <mxPoint x="838" y="100" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="-NG2RwacklTMyi9QmAKU-34" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="1">
